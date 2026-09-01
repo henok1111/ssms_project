@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="SsmsApi.Api/SsmsApi.Api.csproj" />
+    <Project Path="SsmsApi.Application/SsmsApi.Application.csproj" />
+    <Project Path="SsmsApi.Domain/SsmsApi.Domain.csproj" />
+    <Project Path="SsmsApi.Infrastructure/SsmsApi.Infrastructure.csproj" />
+  </Folder>
+</Solution>
