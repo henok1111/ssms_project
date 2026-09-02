@@ -1,0 +1,12 @@
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\bin\Debug\net10.0\SsmsApi.Application.deps.json
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\bin\Debug\net10.0\SsmsApi.Application.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\bin\Debug\net10.0\SsmsApi.Application.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.AssemblyInfoInputs.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.AssemblyInfo.cs
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.csproj.CoreCompileInputs.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.sourcelink.json
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\refint\SsmsApi.Application.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\ref\SsmsApi.Application.dll

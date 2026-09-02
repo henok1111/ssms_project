@@ -1,0 +1,13 @@
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.csproj.AssemblyReference.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.AssemblyInfoInputs.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.AssemblyInfo.cs
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.csproj.CoreCompileInputs.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.sourcelink.json
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\bin\Debug\net10.0\SsmsApi.Domain.deps.json
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\bin\Debug\net10.0\SsmsApi.Domain.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\bin\Debug\net10.0\SsmsApi.Domain.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\refint\SsmsApi.Domain.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\ref\SsmsApi.Domain.dll

@@ -1,0 +1,13 @@
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Infrastructure.deps.json
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Infrastructure.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Infrastructure.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.AssemblyInfo.cs
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.sourcelink.json
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\refint\SsmsApi.Infrastructure.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\ref\SsmsApi.Infrastructure.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.csproj.AssemblyReference.cache
