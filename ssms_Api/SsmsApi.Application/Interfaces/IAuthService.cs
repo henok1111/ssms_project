@@ -1,4 +1,4 @@
-using SsmsApi.Application.DTOs;
+using SsmsApi.Application.DTOs.Auth;
 
 namespace SsmsApi.Application.Interfaces;
 

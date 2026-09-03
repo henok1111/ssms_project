@@ -9,4 +9,6 @@ public class ClientProfile : BaseEntity
 
     public string? PreferredArea { get; set; }
     public int JobsPostedCount { get; set; } = 0;
+    
+
 }

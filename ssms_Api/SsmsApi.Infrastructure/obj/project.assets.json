@@ -1177,6 +1177,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.11",
           "SsmsApi.Domain": "1.0.0"
         },
         "compile": {
@@ -3589,19 +3590,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dps\\.nuget\\packages\\": {}
+    "C:\\Users\\CSUG\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Infrastructure\\SsmsApi.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Infrastructure\\SsmsApi.Infrastructure.csproj",
       "projectName": "SsmsApi.Infrastructure",
-      "projectPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Infrastructure\\SsmsApi.Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\dps\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Infrastructure\\obj\\",
+      "projectPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Infrastructure\\SsmsApi.Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\CSUG\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dps\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\CSUG\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -3614,11 +3615,11 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj": {
-              "projectPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj"
+            "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj": {
+              "projectPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj"
             },
-            "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
-              "projectPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj"
+            "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
+              "projectPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj"
             }
           }
         }

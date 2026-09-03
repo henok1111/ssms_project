@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {}
+    "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
+    "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
         "projectName": "SsmsApi.Domain",
-        "projectPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
-        "packagesPath": "C:\\Users\\dps\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\obj\\",
+        "projectPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
+        "packagesPath": "C:\\Users\\CSUG\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dps\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\CSUG\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"

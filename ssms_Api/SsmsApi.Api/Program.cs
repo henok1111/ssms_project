@@ -35,40 +35,40 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddEntityFrameworkStores<SsmsDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
-    };
+// builder.Services.AddAuthentication(options =>
+// {
+//     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+// })
+// .AddJwtBearer(options =>
+// {
+//     options.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ValidateIssuer = true,
+//         ValidateAudience = true,
+//         ValidateLifetime = true,
+//         ValidateIssuerSigningKey = true,
+//         ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//         ValidAudience = builder.Configuration["Jwt:Audience"],
+//         IssuerSigningKey = new SymmetricSecurityKey(
+//             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+//     };
 
-    // Default JWT middleware only reads the Authorization header.
-    // Since we're using httpOnly cookies instead, we override this event
-    // to pull the token from the cookie named "access_token" instead.
-    options.Events = new JwtBearerEvents
-    {
-        OnMessageReceived = context =>
-        {
-            if (context.Request.Cookies.ContainsKey("access_token"))
-            {
-                context.Token = context.Request.Cookies["access_token"];
-            }
-            return Task.CompletedTask;
-        }
-    };
-});
+//     // Default JWT middleware only reads the Authorization header.
+//     // Since we're using httpOnly cookies instead, we override this event
+//     // to pull the token from the cookie named "access_token" instead.
+//     options.Events = new JwtBearerEvents
+//     {
+//         OnMessageReceived = context =>
+//         {
+//             if (context.Request.Cookies.ContainsKey("access_token"))
+//             {
+//                 context.Token = context.Request.Cookies["access_token"];
+//             }
+//             return Task.CompletedTask;
+//         }
+//     };
+// });
 var app = builder.Build();
 
 // Middleware pipeline

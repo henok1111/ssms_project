@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SsmsApi.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d8fa079b0f50dc7399aaad23fe22fcef2165ff5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7a40d57d6c2fd5ff13448a964833ee2d4533a9d")]
 [assembly: System.Reflection.AssemblyProductAttribute("SsmsApi.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SsmsApi.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

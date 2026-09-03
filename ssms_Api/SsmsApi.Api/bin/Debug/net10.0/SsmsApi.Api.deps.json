@@ -646,6 +646,7 @@
       },
       "SsmsApi.Application/1.0.0": {
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.11",
           "SsmsApi.Domain": "1.0.0"
         },
         "runtime": {
