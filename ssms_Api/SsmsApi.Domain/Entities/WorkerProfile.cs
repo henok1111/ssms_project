@@ -7,7 +7,7 @@ public class WorkerProfile : BaseEntity
 {
     public Guid UserId { get; set; }
     public ApplicationUser User { get; set; } = null!;
-
+public ApprovalStatus ApprovalStatus { get; set; } = ApprovalStatus.Pending;
     public WorkerType WorkerType { get; set; }
     public string? Bio { get; set; }
     public string? ServiceArea { get; set; }

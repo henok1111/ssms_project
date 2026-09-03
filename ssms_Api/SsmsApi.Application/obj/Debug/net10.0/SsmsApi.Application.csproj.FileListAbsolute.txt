@@ -10,3 +10,7 @@ C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi
 C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\refint\SsmsApi.Application.dll
 C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.pdb
 C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\ref\SsmsApi.Application.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\bin\Debug\net10.0\SsmsApi.Domain.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\bin\Debug\net10.0\SsmsApi.Domain.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi.Application.csproj.AssemblyReference.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Application\obj\Debug\net10.0\SsmsApi..5F070483.Up2Date

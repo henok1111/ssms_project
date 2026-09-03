@@ -11,3 +11,10 @@ C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\refi
 C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.pdb
 C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\ref\SsmsApi.Infrastructure.dll
 C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Infrastructure.runtimeconfig.json
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Application.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Domain.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Domain.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\bin\Debug\net10.0\SsmsApi.Application.pdb
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi..4D3C783E.Up2Date
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Infrastructure\obj\Debug\net10.0\SsmsApi.Infrastructure.genruntimeconfig.cache
