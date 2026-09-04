@@ -19,28 +19,13 @@ public interface IJobService
         decimal? minBudget,
         decimal? maxBudget);
 
-    Task<JobResponse> CreateAsync(
-        CreateJobRequest request);
+Task<JobResponse> CreateAsync(Guid clientUserId, CreateJobRequest request);
 
-    Task<JobResponse?> UpdateAsync(
-        Guid id,
-        UpdateJobRequest request);
-
-    Task<bool> DeleteAsync(Guid id);
-
-    Task<bool> AssignWorkerAsync(
-        Guid jobId,
-        Guid workerId);
-
-    Task<bool> StartJobAsync(
-        Guid jobId);
-
-    Task<bool> CompleteJobAsync(
-        Guid jobId);
-
-    Task<bool> CloseJobAsync(
-        Guid jobId);
-
-    Task<bool> CancelJobAsync(
-        Guid jobId);
+  Task<JobResponse?> UpdateAsync(Guid id, Guid clientUserId, UpdateJobRequest request);
+Task<bool> DeleteAsync(Guid id, Guid clientUserId);
+ Task<bool> AcceptApplicationAsync(Guid jobId, Guid applicationId, Guid clientUserId);
+   Task<bool> StartJobAsync(Guid jobId, Guid workerUserId);
+Task<bool> CompleteJobAsync(Guid jobId, Guid workerUserId);
+Task<bool> CloseJobAsync(Guid jobId, Guid clientUserId);
+Task<bool> CancelJobAsync(Guid jobId, Guid userId); // service checks role + current status internally
 }

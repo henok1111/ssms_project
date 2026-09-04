@@ -1,5 +1,4 @@
-namespace SsmsApi.Application.DTOs;
-
+namespace SsmsApi.Application.DTOs.Auth;
 public class ResetPasswordRequest
 {
     public string Email { get; set; } = string.Empty;

@@ -1,6 +1,6 @@
 using SsmsApi.Domain.Enums;
 
-namespace SsmsApi.Application.DTOs;
+namespace SsmsApi.Application.DTOs.Auth;
 
 public class RegisterRequest
 {

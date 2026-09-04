@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using SsmsApi.Application.DTOs;
+using SsmsApi.Application.DTOs.Auth;
+
 using SsmsApi.Application.Interfaces;
 using SsmsApi.Domain.Entities;
 using SsmsApi.Domain.Enums;

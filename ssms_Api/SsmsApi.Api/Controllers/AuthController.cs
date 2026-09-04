@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using SsmsApi.Application.DTOs;
+using SsmsApi.Application.DTOs.Auth;
+
 using SsmsApi.Application.Interfaces;
 
 namespace SsmsApi.Api.Controllers;
