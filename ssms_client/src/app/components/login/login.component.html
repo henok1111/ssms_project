@@ -1,0 +1,27 @@
+<div class="auth-page">
+  <h1>Log in</h1>
+
+  @if (error()) {
+    <div class="state state--error">{{ error() }}</div>
+  }
+
+  <form class="form" (ngSubmit)="onSubmit()">
+    <label class="field">
+      <span class="field__label">Email</span>
+      <input class="field__control" type="email" [(ngModel)]="email" name="email" required />
+    </label>
+
+    <label class="field">
+      <span class="field__label">Password</span>
+      <input class="field__control" type="password" [(ngModel)]="password" name="password" required />
+    </label>
+
+    <button class="btn btn--primary" type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Logging in…' : 'Log in' }}
+    </button>
+  </form>
+
+  <p class="auth-page__switch">
+    Don't have an account? <a routerLink="/register">Register</a>
+  </p>
+</div>

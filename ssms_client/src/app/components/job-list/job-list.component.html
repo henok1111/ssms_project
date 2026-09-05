@@ -1,0 +1,83 @@
+<div class="jobs-page">
+  <header class="jobs-page__header">
+    <h1>Find work</h1>
+    <p class="jobs-page__count">
+      @if (!loading()) {
+        {{ jobs().length }} open job{{ jobs().length === 1 ? '' : 's' }}
+      }
+    </p>
+  </header>
+
+  <div class="toolbar">
+    <select class="toolbar__field" [(ngModel)]="selectedCategoryId" name="category">
+      <option value="">All categories</option>
+      @for (cat of categories(); track cat.id) {
+        <option [value]="cat.id">{{ cat.name }}</option>
+      }
+    </select>
+
+    <input
+      class="toolbar__field"
+      type="text"
+      placeholder="Location"
+      [(ngModel)]="location"
+      name="location"
+    />
+
+    <input
+      class="toolbar__field toolbar__field--number"
+      type="number"
+      placeholder="Min budget"
+      [(ngModel)]="minBudget"
+      name="minBudget"
+    />
+
+    <input
+      class="toolbar__field toolbar__field--number"
+      type="number"
+      placeholder="Max budget"
+      [(ngModel)]="maxBudget"
+      name="maxBudget"
+    />
+
+    <button class="btn btn--primary" (click)="onSearch()">Search</button>
+    <button class="btn btn--ghost" (click)="clearFilters()">Clear</button>
+  </div>
+
+  @if (loading()) {
+    <div class="state state--loading">Loading jobs…</div>
+  }
+
+  @if (error()) {
+    <div class="state state--error">{{ error() }}</div>
+  }
+
+  @if (!loading() && !error() && jobs().length === 0) {
+    <div class="state state--empty">
+      <p class="state__title">No jobs match those filters</p>
+      <p class="state__body">Try widening your budget range or clearing the location filter.</p>
+    </div>
+  }
+
+  <ul class="job-list">
+    @for (job of jobs(); track job.id) {
+      <li class="job-row" [attr.data-status]="JobStatus[job.status]">
+        <div class="job-row__main">
+          <h3 class="job-row__title">{{ job.title }}</h3>
+          <p class="job-row__desc">{{ job.description }}</p>
+          <div class="job-row__meta">
+            <span class="tag">{{ categoryName(job.categoryId) }}</span>
+            <span class="job-row__location">{{ job.location || 'Remote' }}</span>
+          </div>
+        </div>
+
+        <div class="job-row__side">
+          <span class="job-row__budget">{{ job.budget | currency:'ETB ':'symbol':'1.0-0' }}</span>
+          <span class="status-pill" [attr.data-status]="JobStatus[job.status]">
+            {{ JobStatus[job.status] }}
+          </span>
+        </div>
+      </li>
+    }
+  </ul>
+</div>

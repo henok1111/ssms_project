@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.scss',
+  standalone: true,
+  imports: [RouterOutlet,ThemeToggleComponent],
   templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
+
 export class App {
-  protected readonly title = signal('my-angular-app');
+  
+  title = 'ssms-client';
 }

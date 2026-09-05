@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+:root,
+[data-theme="light"] {
+  --ink: #1B3A3F;
+  --ink-soft: #3F5F63;
+  --accent: #E8A33D;
+  --accent-ink: #6B4715;
+  --bg: #FAF9F6;
+  --surface: #FFFFFF;
+  --line: #E4E1D9;
+  --meta: #6B7280;
+}
+
+[data-theme="dark"] {
+  --ink: #EDEFEF;
+  --ink-soft: #B7C4C6;
+  --accent: #E8A33D;
+  --accent-ink: #1B140A;
+  --bg: #14201F;
+  --surface: #1C2B2A;
+  --line: #2E3F3E;
+  --meta: #8B9A9C;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}

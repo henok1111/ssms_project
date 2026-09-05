@@ -24,3 +24,16 @@ C:\Users\CSUG\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Dom
 C:\Users\CSUG\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\refint\SsmsApi.Domain.dll
 C:\Users\CSUG\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.pdb
 C:\Users\CSUG\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\ref\SsmsApi.Domain.dll
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\bin\Debug\net10.0\SsmsApi.Domain.deps.json
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\bin\Debug\net10.0\SsmsApi.Domain.dll
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\bin\Debug\net10.0\SsmsApi.Domain.pdb
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.csproj.AssemblyReference.cache
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.AssemblyInfoInputs.cache
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.AssemblyInfo.cs
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.csproj.CoreCompileInputs.cache
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.sourcelink.json
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.dll
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\refint\SsmsApi.Domain.dll
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\SsmsApi.Domain.pdb
+C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Domain\obj\Debug\net10.0\ref\SsmsApi.Domain.dll

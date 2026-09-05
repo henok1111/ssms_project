@@ -11,6 +11,17 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 // Controllers
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200"
+        )
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // needed since your auth uses cookies
+    });
+});
 builder.Services.AddScoped<ITokenService, TokenService>();
 // Swagger / OpenAPI
 builder.Services.AddOpenApi();
@@ -88,6 +99,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAngularApp");   // <-- ADD THIS LINE
 app.UseAuthentication();
 app.UseAuthorization();
 

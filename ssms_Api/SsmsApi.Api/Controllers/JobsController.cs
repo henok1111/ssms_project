@@ -22,6 +22,7 @@ public class JobsController : ControllerBase
         Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous] // this endpoint is public
     public async Task<IActionResult> GetById(Guid id)
     {
         var job = await _jobService.GetByIdAsync(id);
@@ -29,6 +30,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet("open")]
+    [AllowAnonymous] // this endpoint is public
     public async Task<IActionResult> GetOpenJobs()
     {
         var jobs = await _jobService.GetOpenJobsAsync();
@@ -36,6 +38,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet("search")]
+    [AllowAnonymous] // this endpoint is public
     public async Task<IActionResult> Search(
         [FromQuery] Guid? categoryId,
         [FromQuery] string? location,

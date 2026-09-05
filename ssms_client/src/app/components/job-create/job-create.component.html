@@ -1,0 +1,87 @@
+<div class="job-create">
+  <header class="job-create__header">
+    <h1>Post a job</h1>
+    <p class="job-create__sub">Describe the work and set a budget — workers nearby will apply.</p>
+  </header>
+
+  @if (error()) {
+    <div class="state state--error">{{ error() }}</div>
+  }
+
+  <form class="form" (ngSubmit)="onSubmit()">
+    <label class="field">
+      <span class="field__label">Category</span>
+      <select class="field__control" [(ngModel)]="categoryId" name="categoryId" required>
+        <option value="" disabled>Select a category</option>
+        @for (cat of categories(); track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Title</span>
+      <input
+        class="field__control"
+        type="text"
+        [(ngModel)]="title"
+        name="title"
+        placeholder="e.g. Fix leaking kitchen sink"
+        required
+      />
+    </label>
+
+    <label class="field">
+      <span class="field__label">Description</span>
+      <textarea
+        class="field__control field__control--textarea"
+        [(ngModel)]="description"
+        name="description"
+        rows="4"
+        placeholder="What needs doing, and any details a worker should know before applying"
+        required
+      ></textarea>
+    </label>
+
+    <div class="field-row">
+      <label class="field">
+        <span class="field__label">Job type</span>
+        <select class="field__control" [(ngModel)]="jobType" name="jobType">
+          <option [ngValue]="JobType.OnSite">On-site</option>
+          <option [ngValue]="JobType.Remote">Remote</option>
+        </select>
+      </label>
+
+      <label class="field" [class.field--disabled]="isRemote">
+        <span class="field__label">Location</span>
+        <input
+          class="field__control"
+          type="text"
+          [(ngModel)]="location"
+          name="location"
+          placeholder="e.g. Bole, Addis Ababa"
+          [disabled]="isRemote"
+        />
+      </label>
+    </div>
+
+    <label class="field field--budget">
+      <span class="field__label">Budget (ETB)</span>
+      <input
+        class="field__control"
+        type="number"
+        [(ngModel)]="budget"
+        name="budget"
+        placeholder="0"
+        min="0"
+        required
+      />
+    </label>
+
+    <div class="form__actions">
+      <button class="btn btn--primary" type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Posting…' : 'Post job' }}
+      </button>
+    </div>
+  </form>
+</div>

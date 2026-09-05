@@ -18,7 +18,15 @@ public class EmailService : IEmailService
     public async Task SendEmailAsync(string toEmail, string subject, string htmlBody)
     {
         var host = _configuration["Smtp:Host"];
-        var port = int.Parse(_configuration["Smtp:Port"]!);
+        var portString = _configuration["Smtp:Port"];
+
+        if (string.IsNullOrWhiteSpace(host) || string.IsNullOrWhiteSpace(portString))
+        {
+            // SMTP not configured — skip sending (dev/testing convenience).
+            return;
+        }
+
+        var port = int.Parse(portString);
         var username = _configuration["Smtp:Username"];
         var password = _configuration["Smtp:Password"];
         var fromEmail = _configuration["Smtp:FromEmail"];

@@ -1,0 +1,46 @@
+<div class="auth-page">
+  <h1>Create an account</h1>
+
+  @if (error()) {
+    <div class="state state--error">{{ error() }}</div>
+  }
+
+  <form class="form" (ngSubmit)="onSubmit()">
+    <label class="field">
+      <span class="field__label">Full name</span>
+      <input class="field__control" type="text" [(ngModel)]="fullName" name="fullName" required />
+    </label>
+
+    <label class="field">
+      <span class="field__label">Email</span>
+      <input class="field__control" type="email" [(ngModel)]="email" name="email" required />
+    </label>
+
+    <label class="field">
+      <span class="field__label">Phone number</span>
+      <input class="field__control" type="tel" [(ngModel)]="phoneNumber" name="phoneNumber" required />
+    </label>
+
+    <label class="field">
+      <span class="field__label">Password</span>
+      <input class="field__control" type="password" [(ngModel)]="password" name="password" required />
+    </label>
+
+    <label class="field">
+      <span class="field__label">I am a</span>
+      <select class="field__control" [(ngModel)]="role" name="role">
+        <option [ngValue]="UserRole.Client">Client — I need work done</option>
+        <option [ngValue]="UserRole.Worker">Worker — I offer services</option>
+        <option [ngValue]="UserRole.Supplier">Supplier — I sell materials</option>
+      </select>
+    </label>
+
+    <button class="btn btn--primary" type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Creating account…' : 'Create account' }}
+    </button>
+  </form>
+
+  <p class="auth-page__switch">
+    Already have an account? <a routerLink="/login">Log in</a>
+  </p>
+</div>

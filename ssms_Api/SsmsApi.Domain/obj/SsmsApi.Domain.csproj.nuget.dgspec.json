@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {}
+    "C:\\Users\\abebe\\ssss\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
+    "C:\\Users\\abebe\\ssss\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\abebe\\ssss\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
         "projectName": "SsmsApi.Domain",
-        "projectPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
-        "packagesPath": "C:\\Users\\dps\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\obj\\",
+        "projectPath": "C:\\Users\\abebe\\ssss\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
+        "packagesPath": "C:\\Users\\abebe\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\abebe\\ssss\\ssms_project\\ssms_Api\\SsmsApi.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dps\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\abebe\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -67,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.303/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

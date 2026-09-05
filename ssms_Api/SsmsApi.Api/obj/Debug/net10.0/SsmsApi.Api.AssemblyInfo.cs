@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SsmsApi.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d93fab21b5671971f9d43677ab701f592345e11")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b1fdbe2d741c2a6924e17ae2dfe348db87e2abf")]
 [assembly: System.Reflection.AssemblyProductAttribute("SsmsApi.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SsmsApi.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

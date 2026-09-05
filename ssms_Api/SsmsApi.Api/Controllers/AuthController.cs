@@ -72,8 +72,8 @@ public class AuthController : ControllerBase
         var accessCookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.Strict,
+            Secure = false,
+            SameSite = SameSiteMode.Lax,
             Expires = DateTimeOffset.UtcNow.AddMinutes(15)
         };
         Response.Cookies.Append("access_token", accessToken, accessCookieOptions);
@@ -81,8 +81,8 @@ public class AuthController : ControllerBase
         var refreshCookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.Strict,
+            Secure = false,
+            SameSite = SameSiteMode.Lax,
             Expires = DateTimeOffset.UtcNow.AddDays(7)
         };
         Response.Cookies.Append("refresh_token", refreshToken, refreshCookieOptions);
