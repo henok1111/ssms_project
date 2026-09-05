@@ -87,4 +87,25 @@ public class AuthController : ControllerBase
         };
         Response.Cookies.Append("refresh_token", refreshToken, refreshCookieOptions);
     }
+
+[HttpPost("refresh")]
+public async Task<IActionResult> Refresh()
+{
+    var refreshToken = Request.Cookies["refresh_token"];
+    if (string.IsNullOrEmpty(refreshToken))
+        return Unauthorized(new { message = "No refresh token provided." });
+
+    var (success, errors, accessToken, newRefreshToken) = await _authService.RefreshTokenAsync(refreshToken);
+    if (!success)
+    {
+        Response.Cookies.Delete("access_token");
+        Response.Cookies.Delete("refresh_token");
+        return Unauthorized(new { errors });
+    }
+
+    SetAuthCookies(accessToken!, newRefreshToken!);
+    return Ok(new { message = "Token refreshed." });
+}
+
+    
 }

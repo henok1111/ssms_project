@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using SsmsApi.Application.DTOs.Auth;
-
+using Microsoft.EntityFrameworkCore;
 using SsmsApi.Application.Interfaces;
 using SsmsApi.Domain.Entities;
 using SsmsApi.Domain.Enums;
@@ -198,4 +198,60 @@ public class AuthService : IAuthService
             ? (true, Array.Empty<string>())
             : (false, result.Errors.Select(e => e.Description).ToArray());
     }
+
+    public async Task<(bool, string[], string?, string?)> RefreshTokenAsync(string refreshToken)
+{
+    var storedToken = await _dbContext.RefreshTokens
+        .Include(rt => rt.User)
+        .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+    if (storedToken is null)
+        return (false, new[] { "Invalid refresh token." }, null, null);
+
+    if (storedToken.IsRevoked)
+    {
+        // The same refresh token being reused after it was already rotated
+        // is a strong signal of theft — revoke the ENTIRE chain, not just this one.
+        await RevokeTokenChainAsync(storedToken);
+        return (false, new[] { "Token reuse detected. Please log in again." }, null, null);
+    }
+
+    if (storedToken.ExpiresAt < DateTime.UtcNow)
+        return (false, new[] { "Refresh token expired. Please log in again." }, null, null);
+
+    // Rotate: revoke the old token, issue a brand new pair.
+    var newAccessToken = _tokenService.GenerateAccessToken(storedToken.User, storedToken.User.Role.ToString());
+    var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+    storedToken.IsRevoked = true;
+    storedToken.ReplacedByToken = newRefreshToken;
+
+    _dbContext.RefreshTokens.Add(new RefreshToken
+    {
+        UserId = storedToken.UserId,
+        Token = newRefreshToken,
+        ExpiresAt = DateTime.UtcNow.AddDays(7)
+    });
+
+    await _dbContext.SaveChangesAsync();
+
+    return (true, Array.Empty<string>(), newAccessToken, newRefreshToken);
+}
+
+private async Task RevokeTokenChainAsync(RefreshToken token)
+{
+    token.IsRevoked = true;
+    var next = token.ReplacedByToken;
+
+    while (next is not null)
+    {
+        var nextToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == next);
+        if (nextToken is null) break;
+
+        nextToken.IsRevoked = true;
+        next = nextToken.ReplacedByToken;
+    }
+
+    await _dbContext.SaveChangesAsync();
+}
 }
