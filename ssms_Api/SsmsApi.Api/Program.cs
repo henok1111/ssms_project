@@ -22,7 +22,14 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 // Identity core — registers UserManager<ApplicationUser>, RoleManager<IdentityRole<Guid>>,
 // and wires them to SsmsDbContext as the storage backend.
 builder.Services.AddDataProtection();
-
+builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddScoped<IMaterialItemService, MaterialItemService>();
+builder.Services.AddScoped<IMaterialRequestService, MaterialRequestService>();
+builder.Services.AddScoped<IQuoteService, QuoteService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IPaymentGatewayService, FakeChapaPaymentGatewayService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
         options.Password.RequiredLength = 8;
@@ -70,7 +77,10 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 //     };
 // });
 var app = builder.Build();
-
+using (var scope = app.Services.CreateScope())
+{
+    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
+}
 // Middleware pipeline
 if (app.Environment.IsDevelopment())
 {

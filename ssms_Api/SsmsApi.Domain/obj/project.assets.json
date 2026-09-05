@@ -859,19 +859,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\CSUG\\.nuget\\packages\\": {}
+    "C:\\Users\\Henok\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
       "projectName": "SsmsApi.Domain",
-      "projectPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
-      "packagesPath": "C:\\Users\\CSUG\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\CSUG\\ssms_project\\ssms_Api\\SsmsApi.Domain\\obj\\",
+      "projectPath": "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj",
+      "packagesPath": "C:\\Users\\Henok\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\CSUG\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Henok\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -1201,5 +1201,13 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
 }

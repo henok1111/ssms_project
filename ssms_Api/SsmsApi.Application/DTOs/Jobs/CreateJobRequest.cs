@@ -4,7 +4,7 @@ namespace SsmsApi.Application.DTOs.Jobs;
 
 public class CreateJobRequest
 {
-    public Guid ClientId { get; set; }
+   
 
     public Guid CategoryId { get; set; }
 
