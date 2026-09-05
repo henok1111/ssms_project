@@ -4,6 +4,8 @@ namespace SsmsApi.Application.DTOs.Jobs;
 
 public class CreateJobRequest
 {
+   
+
     public Guid CategoryId { get; set; }
 
     public string Title { get; set; } = string.Empty;

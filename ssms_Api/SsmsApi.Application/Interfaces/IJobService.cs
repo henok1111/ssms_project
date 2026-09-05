@@ -10,8 +10,9 @@ public interface IJobService
 
     Task<IReadOnlyList<JobResponse>> GetOpenJobsAsync();
 
-    Task<IReadOnlyList<JobResponse>> GetByClientIdAsync(
-        Guid clientId);
+    Task<IReadOnlyList<JobResponse>> GetByClientIdAsync(Guid clientUserId);
+
+    Task<IReadOnlyList<JobResponse>> GetByWorkerIdAsync(Guid workerUserId);
 
     Task<IReadOnlyList<JobResponse>> SearchAsync(
         Guid? categoryId,
@@ -19,13 +20,19 @@ public interface IJobService
         decimal? minBudget,
         decimal? maxBudget);
 
-Task<JobResponse> CreateAsync(Guid clientUserId, CreateJobRequest request);
+    Task<JobResponse> CreateAsync(Guid clientUserId, CreateJobRequest request);
 
-  Task<JobResponse?> UpdateAsync(Guid id, Guid clientUserId, UpdateJobRequest request);
-Task<bool> DeleteAsync(Guid id, Guid clientUserId);
- Task<bool> AcceptApplicationAsync(Guid jobId, Guid applicationId, Guid clientUserId);
-   Task<bool> StartJobAsync(Guid jobId, Guid workerUserId);
-Task<bool> CompleteJobAsync(Guid jobId, Guid workerUserId);
-Task<bool> CloseJobAsync(Guid jobId, Guid clientUserId);
-Task<bool> CancelJobAsync(Guid jobId, Guid userId); // service checks role + current status internally
+    Task<JobResponse?> UpdateAsync(Guid id, Guid clientUserId, UpdateJobRequest request);
+
+    Task<bool> DeleteAsync(Guid id, Guid clientUserId);
+
+    Task<bool> AcceptApplicationAsync(Guid jobId, Guid applicationId, Guid clientUserId);
+
+    Task<bool> StartJobAsync(Guid jobId, Guid workerUserId);
+
+    Task<bool> CompleteJobAsync(Guid jobId, Guid workerUserId);
+
+ 
+
+    Task<bool> CancelJobAsync(Guid jobId, Guid userId);
 }
