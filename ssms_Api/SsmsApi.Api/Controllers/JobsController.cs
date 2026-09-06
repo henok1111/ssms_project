@@ -129,4 +129,37 @@ public class JobsController : ControllerBase
         var success = await _jobService.CancelJobAsync(id, CurrentUserId);
         return success ? Ok(new { message = "Job cancelled." }) : BadRequest(new { message = "Unable to cancel this job." });
     }
+   [HttpPost("{id:guid}/apply")]
+[Authorize(Roles = "Worker")]
+public async Task<IActionResult> Apply(Guid id, [FromBody] CreateJobApplicationRequest request)
+{
+    try
+    {
+        var application = await _jobService.ApplyAsync(id, CurrentUserId, request);
+        return Ok(application);
+    }
+    catch (KeyNotFoundException ex)
+    {
+        return NotFound(new { message = ex.Message });
+    }
+    catch (InvalidOperationException ex)
+    {
+        return BadRequest(new { message = ex.Message });
+    }
+
+}
+[HttpGet("{id:guid}/applications")]
+[Authorize(Roles = "Client")]
+public async Task<IActionResult> GetApplications(Guid id)
+{
+    try
+    {
+        var applications = await _jobService.GetApplicationsForJobAsync(id, CurrentUserId);
+        return Ok(applications);
+    }
+    catch (KeyNotFoundException ex)
+    {
+        return NotFound(new { message = ex.Message });
+    }
+}
 }

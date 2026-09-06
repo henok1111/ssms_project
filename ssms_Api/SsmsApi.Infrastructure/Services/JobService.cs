@@ -258,4 +258,72 @@ public class JobService : IJobService
         await _dbContext.SaveChangesAsync();
         return true;
     }
+    public async Task<JobApplicationResponse> ApplyAsync(Guid jobId, Guid workerUserId, CreateJobApplicationRequest request)
+{
+    var job = await _dbContext.Jobs.FirstOrDefaultAsync(j => j.Id == jobId);
+    if (job is null)
+        throw new KeyNotFoundException($"Job '{jobId}' was not found.");
+
+    if (job.Status != JobStatus.Open)
+        throw new InvalidOperationException("You can only apply to open jobs.");
+
+    var workerProfile = await _dbContext.WorkerProfiles
+        .Include(w => w.User)                          // <-- added, so we can read the name below
+        .FirstOrDefaultAsync(w => w.UserId == workerUserId)
+        ?? throw new InvalidOperationException("Worker profile not found.");
+
+    var alreadyApplied = await _dbContext.JobApplications
+        .AnyAsync(a => a.JobId == jobId && a.WorkerId == workerProfile.Id);
+    if (alreadyApplied)
+        throw new InvalidOperationException("You have already applied to this job.");
+
+    var application = new JobApplication
+    {
+        JobId = jobId,
+        WorkerId = workerProfile.Id,
+        ProposedPrice = request.ProposedPrice,
+        Message = request.Message,
+        Status = ApplicationStatus.Pending
+    };
+
+    _dbContext.JobApplications.Add(application);
+    await _dbContext.SaveChangesAsync();
+
+    return new JobApplicationResponse
+    {
+        Id = application.Id,
+        JobId = application.JobId,
+        WorkerId = application.WorkerId,
+        WorkerName = workerProfile.User.FullName,        // <-- added
+        ProposedPrice = application.ProposedPrice,
+        Message = application.Message,
+        Status = application.Status,
+        CreatedAt = application.CreatedAt
+    };
+}
+public async Task<IReadOnlyList<JobApplicationResponse>> GetApplicationsForJobAsync(Guid jobId, Guid clientUserId)
+{
+    var job = await _dbContext.Jobs
+        .Include(j => j.Client)
+        .Include(j => j.Applications).ThenInclude(a => a.Worker).ThenInclude(w => w.User)
+        .FirstOrDefaultAsync(j => j.Id == jobId);
+
+    if (job is null || job.Client.UserId != clientUserId)
+        throw new KeyNotFoundException("Job not found.");
+
+    return job.Applications
+        .OrderByDescending(a => a.CreatedAt)
+        .Select(a => new JobApplicationResponse
+        {
+            Id = a.Id,
+            JobId = a.JobId,
+            WorkerId = a.WorkerId,
+            WorkerName = a.Worker.User.FullName,
+            ProposedPrice = a.ProposedPrice,
+            Message = a.Message,
+            Status = a.Status,
+            CreatedAt = a.CreatedAt
+        })
+        .ToList();
+}
 }

@@ -31,8 +31,7 @@ public interface IJobService
     Task<bool> StartJobAsync(Guid jobId, Guid workerUserId);
 
     Task<bool> CompleteJobAsync(Guid jobId, Guid workerUserId);
-
- 
-
+Task<IReadOnlyList<JobApplicationResponse>> GetApplicationsForJobAsync(Guid jobId, Guid clientUserId);
+ Task<JobApplicationResponse> ApplyAsync(Guid jobId, Guid workerUserId, CreateJobApplicationRequest request);
     Task<bool> CancelJobAsync(Guid jobId, Guid userId);
 }

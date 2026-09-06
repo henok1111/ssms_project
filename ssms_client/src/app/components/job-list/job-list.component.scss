@@ -253,3 +253,59 @@
     flex: 1 1 100%;
   }
 }
+.btn--small {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent-ink);
+  cursor: pointer;
+
+  &:hover { background: rgba(232, 163, 61, 0.12); }
+}
+
+.applied-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2F5C43;
+}
+
+.apply-form {
+  margin-top: 0.85rem;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 360px;
+}
+
+.apply-form__error {
+  color: #B45050;
+  font-size: 0.85rem;
+}
+
+.apply-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+
+  input, textarea {
+    padding: 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: inherit;
+  }
+}
+
+.apply-form__actions {
+  display: flex;
+  gap: 0.5rem;
+}

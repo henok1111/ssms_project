@@ -1,0 +1,83 @@
+<div class="my-jobs-page">
+  <header class="my-jobs-page__header">
+    <h1>My jobs</h1>
+  </header>
+
+  @if (loading()) {
+    <div class="state">Loading your jobs…</div>
+  }
+
+  @if (error()) {
+    <div class="state state--error">{{ error() }}</div>
+  }
+
+  @if (!loading() && jobs().length === 0) {
+    <div class="state state--empty">
+      <p class="state__title">You haven't posted any jobs yet</p>
+    </div>
+  }
+
+  <ul class="job-list">
+    @for (job of jobs(); track job.id) {
+      <li class="job-row">
+        <div class="job-row__main">
+          <h3 class="job-row__title">{{ job.title }}</h3>
+          <div class="job-row__meta">
+            <span class="tag">{{ job.categoryName }}</span>
+            <span class="status-pill" [attr.data-status]="JobStatus[job.status]">{{ JobStatus[job.status] }}</span>
+          </div>
+        </div>
+
+        <div class="job-row__side">
+          <span class="job-row__budget">{{ job.budget | currency:'ETB ':'symbol':'1.0-0' }}</span>
+
+          @if (job.status === JobStatus.Open) {
+            <button class="btn btn--small" (click)="toggleApplications(job.id)">
+              {{ expandedJobId() === job.id ? 'Hide applications' : 'View applications' }}
+            </button>
+          }
+        </div>
+      </li>
+
+      @if (expandedJobId() === job.id) {
+        <li class="applications-panel">
+          @if (applicationsLoading()) {
+            <p class="state">Loading applications…</p>
+          }
+
+          @if (!applicationsLoading() && applications().length === 0) {
+            <p class="state state--empty">No applications yet.</p>
+          }
+
+          @for (app of applications(); track app.id) {
+            <div class="application-card">
+              <div class="application-card__main">
+                <strong>{{ app.workerName }}</strong>
+                <span class="application-card__price">{{ app.proposedPrice | currency:'ETB ':'symbol':'1.0-0' }}</span>
+                @if (app.message) {
+                  <p class="application-card__message">{{ app.message }}</p>
+                }
+              </div>
+
+              <div class="application-card__side">
+                @if (app.status === ApplicationStatus.Pending) {
+                  <button
+                    class="btn btn--primary btn--small"
+                    (click)="accept(job.id, app.id)"
+                    [disabled]="acceptingId() === app.id"
+                  >
+                    {{ acceptingId() === app.id ? 'Accepting…' : 'Accept' }}
+                  </button>
+                } @else {
+                  <span class="status-pill" [attr.data-status]="ApplicationStatus[app.status]">
+                    {{ ApplicationStatus[app.status] }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+        </li>
+      }
+    }
+  </ul>
+</div>

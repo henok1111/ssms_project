@@ -9,7 +9,7 @@
   </header>
 
   <div class="toolbar">
-    <select class="toolbar__field" [(ngModel)]="selectedCategoryId" name="category">
+    <select class="toolbar__field" [(ngModel)]="selectedCategoryId" name="category" aria-label="Filter by category">
       <option value="">All categories</option>
       @for (cat of categories(); track cat.id) {
         <option [value]="cat.id">{{ cat.name }}</option>
@@ -22,6 +22,7 @@
       placeholder="Location"
       [(ngModel)]="location"
       name="location"
+      aria-label="Filter by location"
     />
 
     <input
@@ -30,6 +31,7 @@
       placeholder="Min budget"
       [(ngModel)]="minBudget"
       name="minBudget"
+      aria-label="Minimum budget"
     />
 
     <input
@@ -38,6 +40,7 @@
       placeholder="Max budget"
       [(ngModel)]="maxBudget"
       name="maxBudget"
+      aria-label="Maximum budget"
     />
 
     <button class="btn btn--primary" (click)="onSearch()">Search</button>
@@ -69,13 +72,44 @@
             <span class="tag">{{ categoryName(job.categoryId) }}</span>
             <span class="job-row__location">{{ job.location || 'Remote' }}</span>
           </div>
+
+          @if (isWorker && applyingJobId() === job.id) {
+            <div class="apply-form">
+              @if (applyError()) {
+                <div class="apply-form__error">{{ applyError() }}</div>
+              }
+
+              <label class="apply-form__field">
+                <span>Your price (ETB)</span>
+                <input type="number" [(ngModel)]="proposedPrice" name="proposedPrice" placeholder="0" />
+              </label>
+
+              <label class="apply-form__field">
+                <span>Message (optional)</span>
+                <textarea [(ngModel)]="message" name="message" rows="2" placeholder="Why you're a good fit"></textarea>
+              </label>
+
+              <div class="apply-form__actions">
+                <button class="btn btn--primary" (click)="submitApplication(job.id)" [disabled]="applySubmitting()">
+                  {{ applySubmitting() ? 'Sending…' : 'Send application' }}
+                </button>
+                <button class="btn btn--ghost" (click)="cancelApplyForm()">Cancel</button>
+              </div>
+            </div>
+          }
         </div>
 
         <div class="job-row__side">
           <span class="job-row__budget">{{ job.budget | currency:'ETB ':'symbol':'1.0-0' }}</span>
-          <span class="status-pill" [attr.data-status]="JobStatus[job.status]">
-            {{ JobStatus[job.status] }}
-          </span>
+          <span class="status-pill" [attr.data-status]="JobStatus[job.status]">{{ JobStatus[job.status] }}</span>
+
+          @if (isWorker && job.status === JobStatus.Open) {
+            @if (hasApplied(job.id)) {
+              <span class="applied-badge">Applied ✓</span>
+            } @else if (applyingJobId() !== job.id) {
+              <button class="btn btn--small" (click)="openApplyForm(job.id)">Apply</button>
+            }
+          }
         </div>
       </li>
     }

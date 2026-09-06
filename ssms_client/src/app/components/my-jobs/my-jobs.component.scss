@@ -1,0 +1,135 @@
+:host { display: block; }
+
+.my-jobs-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+  }
+}
+
+.state {
+  padding: 1rem 0;
+  color: var(--meta);
+}
+
+.state--error { color: #B45050; }
+
+.job-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.job-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.job-row__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+}
+
+.job-row__meta {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.tag {
+  background: rgba(27, 58, 63, 0.06);
+  color: var(--ink-soft);
+  padding: 0.15rem 0.55rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.status-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(27, 58, 63, 0.06);
+  color: var(--ink-soft);
+
+  &[data-status="Open"] { background: rgba(76, 139, 107, 0.12); color: #2F5C43; }
+  &[data-status="Accepted"] { background: rgba(76, 139, 107, 0.12); color: #2F5C43; }
+  &[data-status="Assigned"] { background: rgba(232, 163, 61, 0.18); color: var(--accent-ink); }
+  &[data-status="Rejected"] { background: rgba(180, 80, 80, 0.12); color: #7A3535; }
+}
+
+.job-row__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.job-row__budget {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn--small {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent-ink);
+  cursor: pointer;
+
+  &:hover { background: rgba(232, 163, 61, 0.12); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.btn--primary.btn--small {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: none;
+}
+
+.applications-panel {
+  list-style: none;
+  padding: 1rem 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  margin-bottom: 0.5rem;
+}
+
+.application-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+
+  &:last-child { border-bottom: none; }
+}
+
+.application-card__price {
+  margin-left: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.application-card__message {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 0.3rem 0 0;
+}

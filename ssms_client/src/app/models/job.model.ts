@@ -16,7 +16,9 @@ export enum JobStatus {
 export interface JobResponse {
   id: string;
   clientId: string;
+  clientName: string;
   categoryId: string;
+  categoryName: string;
   title: string;
   description: string;
   jobType: JobType;
@@ -24,6 +26,7 @@ export interface JobResponse {
   budget: number;
   status: JobStatus;
   assignedWorkerId: string | null;
+  assignedWorkerName: string | null;
   createdAt: string;
 }
 
