@@ -8,31 +8,38 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Scalar.AspNetCore;
+using SsmsApi.Api.Hubs;
+using SsmsApi.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
 // Controllers
 builder.Services.AddControllers();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200"
-        )
+        policy.WithOrigins("http://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials(); // needed since your auth uses cookies
     });
 });
-builder.Services.AddScoped<ITokenService, TokenService>();
+
 // Swagger / OpenAPI
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<IAuthService, AuthService>();
+
 // Database — connects SsmsDbContext to Postgres via the connection string
 builder.Services.AddDbContext<SsmsDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IEmailService, EmailService>();
-// Identity core — registers UserManager<ApplicationUser>, RoleManager<IdentityRole<Guid>>,
-// and wires them to SsmsDbContext as the storage backend.
+
 builder.Services.AddDataProtection();
+
+// ---- Application services ----
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<IMaterialItemService, MaterialItemService>();
 builder.Services.AddScoped<IMaterialRequestService, MaterialRequestService>();
@@ -42,6 +49,18 @@ builder.Services.AddScoped<IPaymentGatewayService, FakeChapaPaymentGatewayServic
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IDisputeService, DisputeService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
+
+
+// ---- SignalR ----
+builder.Services.AddSignalR();
+builder.Services.AddScoped<IRealtimeNotifier, SignalRRealtimeNotifier>();
+
+// Identity core — registers UserManager<ApplicationUser>, RoleManager<IdentityRole<Guid>>,
+// and wires them to SsmsDbContext as the storage backend.
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
         options.Password.RequiredLength = 8;
@@ -77,7 +96,14 @@ builder.Services.AddAuthentication(options =>
     {
         OnMessageReceived = context =>
         {
-            if (context.Request.Cookies.ContainsKey("access_token"))
+            // SignalR sends the token via query string on the hub connection URL.
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+            }
+            else if (context.Request.Cookies.ContainsKey("access_token"))
             {
                 context.Token = context.Request.Cookies["access_token"];
             }
@@ -86,23 +112,29 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
+app.UseStaticFiles(); // serves files from wwwroot, including our /uploads folder
 using (var scope = app.Services.CreateScope())
 {
     await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
 }
+
 // Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference(); // serves UI at /scalar
 }
+
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAngularApp");   // <-- ADD THIS LINE
+app.UseCors("AllowAngularApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();
