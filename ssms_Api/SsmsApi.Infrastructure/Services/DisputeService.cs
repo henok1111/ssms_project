@@ -10,12 +10,13 @@ namespace SsmsApi.Infrastructure.Services;
 public class DisputeService : IDisputeService
 {
     private readonly SsmsDbContext _dbContext;
+private readonly INotificationService _notificationService;
 
-    public DisputeService(SsmsDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
+public DisputeService(SsmsDbContext dbContext, INotificationService notificationService)
+{
+    _dbContext = dbContext;
+    _notificationService = notificationService;
+}
     private static DisputeResponse ToResponse(Dispute d) => new()
     {
         Id = d.Id,
@@ -79,6 +80,20 @@ public class DisputeService : IDisputeService
         await _dbContext.SaveChangesAsync();
 
         dispute.RaisedBy = (await _dbContext.Users.FindAsync(userId))!;
+        // Notify whichever participant DIDN'T raise the dispute.
+var otherPartyUserId = job.Client.UserId == userId
+    ? job.AssignedWorker?.UserId
+    : job.Client.UserId;
+
+if (otherPartyUserId.HasValue)
+{
+    await _notificationService.CreateAsync(
+        otherPartyUserId.Value,
+        NotificationType.OrderStatusUpdate, // no dedicated "Dispute" type yet — reuse closest existing one for now
+        $"A dispute was raised on job \"{job.Title}\". An admin will review it.",
+        jobId
+    );
+}
         return ToResponse(dispute);
     }
 

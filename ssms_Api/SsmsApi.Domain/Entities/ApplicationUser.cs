@@ -9,7 +9,7 @@ public class ApplicationUser : IdentityUser<Guid>
     public UserRole Role { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+public string? ProfilePictureUrl { get; set; }
     public WorkerProfile? WorkerProfile { get; set; }
     public ClientProfile? ClientProfile { get; set; }
     public SupplierProfile? SupplierProfile { get; set; }

@@ -11,11 +11,13 @@ public class QuoteService : IQuoteService
 {
     private readonly SsmsDbContext _dbContext;
 
-    public QuoteService(SsmsDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+   private readonly INotificationService _notificationService;
 
+public QuoteService(SsmsDbContext dbContext, INotificationService notificationService)
+{
+    _dbContext = dbContext;
+    _notificationService = notificationService;
+}
     private static QuoteResponse ToResponse(Quote q) => new()
     {
         Id = q.Id,
@@ -30,6 +32,7 @@ public class QuoteService : IQuoteService
     {
         var quote = await _dbContext.Quotes.FirstOrDefaultAsync(q => q.JobId == jobId);
         return quote is null ? null : ToResponse(quote);
+
     }
 
     public async Task<QuoteResponse> GenerateAsync(Guid jobId, Guid workerUserId, GenerateQuoteRequest request)
@@ -63,8 +66,14 @@ public class QuoteService : IQuoteService
 
         _dbContext.Quotes.Add(quote);
         await _dbContext.SaveChangesAsync();
-
+await _notificationService.CreateAsync(
+    job.Client.UserId,
+    NotificationType.QuoteApproved, // reusing this type for "quote ready to review"
+    $"A quote is ready for your approval on \"{job.Title}\".",
+    job.Id
+);
         return ToResponse(quote);
+        
     }
 
     public async Task<bool> ApproveAsync(Guid quoteId, Guid clientUserId)

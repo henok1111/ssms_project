@@ -427,3 +427,4 @@ C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Api\obj\Debug\net10.0\refint\S
 C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Api\obj\Debug\net10.0\SsmsApi.Api.pdb
 C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Api\obj\Debug\net10.0\SsmsApi.Api.genruntimeconfig.cache
 C:\Users\abebe\ssss\ssms_project\ssms_Api\SsmsApi.Api\obj\Debug\net10.0\ref\SsmsApi.Api.dll
+C:\Users\dps\ssms_project\ssms_Api\SsmsApi.Api\bin\Debug\net10.0\SsmsApi.Api.staticwebassets.runtime.json

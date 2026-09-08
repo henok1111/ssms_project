@@ -10,11 +10,13 @@ namespace SsmsApi.Infrastructure.Services;
 public class JobService : IJobService
 {
     private readonly SsmsDbContext _dbContext;
+private readonly INotificationService _notificationService;
 
-    public JobService(SsmsDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+public JobService(SsmsDbContext dbContext, INotificationService notificationService)
+{
+    _dbContext = dbContext;
+    _notificationService = notificationService;
+}
 
     private static IQueryable<Job> BaseQuery(SsmsDbContext db) =>
         db.Jobs
@@ -173,6 +175,12 @@ public class JobService : IJobService
             .Include(j => j.Applications)
             .FirstOrDefaultAsync(j => j.Id == jobId);
 
+
+
+
+
+
+
         if (job is null || job.Client.UserId != clientUserId || job.Status != JobStatus.Open)
             return false;
 
@@ -191,6 +199,12 @@ public class JobService : IJobService
         }
 
         await _dbContext.SaveChangesAsync();
+        await _notificationService.CreateAsync(
+    acceptedApplication.Worker.UserId,
+    NotificationType.ApplicationAccepted,
+    $"Your application for \"{job.Title}\" was accepted!",
+    job.Id
+);
         return true;
     }
 

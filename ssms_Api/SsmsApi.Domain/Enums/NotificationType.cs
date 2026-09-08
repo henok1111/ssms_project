@@ -7,5 +7,7 @@ public enum NotificationType
     QuoteApproved,
     PaymentReleased,
     NewMessage,
-    OrderStatusUpdate
+    OrderStatusUpdate,
+    DisputeRaised,
+    ApprovalStatusChanged
 }
