@@ -116,46 +116,69 @@ public class AuthService : IAuthService
         return (true, Array.Empty<string>(), response, accessToken, refreshToken);
     }
 
-    public async Task<(bool, string[], AuthResponse?, string?, string?)> LoginAsync(LoginRequest request)
+   public async Task<(bool, string[], AuthResponse?, string?, string?)> LoginAsync(LoginRequest request)
+{
+    var user = await _userManager.FindByEmailAsync(request.Email);
+
+    if (user is null)
+        return (false, new[] { "Invalid email or password." }, null, null, null);
+
+    var passwordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+    if (!passwordValid)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
-        if (user is null)
-            return (false, new[] { "Invalid email or password." }, null, null, null);
-
-        var passwordValid = await _userManager.CheckPasswordAsync(user, request.Password);
-        if (!passwordValid)
-        {
-            await _userManager.AccessFailedAsync(user);
-            return (false, new[] { "Invalid email or password." }, null, null, null);
-        }
-
-        if (await _userManager.IsLockedOutAsync(user))
-            return (false, new[] { "Account is locked. Try again later." }, null, null, null);
-
-        await _userManager.ResetAccessFailedCountAsync(user);
-
-        var accessToken = _tokenService.GenerateAccessToken(user, user.Role.ToString());
-        var refreshToken = _tokenService.GenerateRefreshToken();
-
-        _dbContext.RefreshTokens.Add(new RefreshToken
-        {
-            UserId = user.Id,
-            Token = refreshToken,
-            ExpiresAt = DateTime.UtcNow.AddDays(7)
-        });
-        await _dbContext.SaveChangesAsync();
-
-        var response = new AuthResponse
-        {
-            UserId = user.Id,
-            FullName = user.FullName,
-            Email = user.Email!,
-            Role = user.Role.ToString()
-        };
-
-        return (true, Array.Empty<string>(), response, accessToken, refreshToken);
+        await _userManager.AccessFailedAsync(user);
+        return (false, new[] { "Invalid email or password." }, null, null, null);
     }
 
+    if (await _userManager.IsLockedOutAsync(user))
+        return (false, new[] { "Account is locked. Try again later." }, null, null, null);
+
+    await _userManager.ResetAccessFailedCountAsync(user);
+
+    // Block deactivated accounts entirely.
+    if (!user.IsActive)
+        return (false, new[] { "Your account has been deactivated. Contact support." }, null, null, null);
+
+    // Block Worker/Supplier accounts that are not yet Approved.
+    if (user.Role == UserRole.Worker)
+    {
+        var workerProfile = await _dbContext.WorkerProfiles.FirstOrDefaultAsync(w => w.UserId == user.Id);
+        if (workerProfile?.ApprovalStatus == ApprovalStatus.Rejected)
+            return (false, new[] { "Your worker account application was rejected." }, null, null, null);
+        if (workerProfile?.ApprovalStatus == ApprovalStatus.Pending)
+            return (false, new[] { "Your worker account is pending admin approval." }, null, null, null);
+    }
+
+    if (user.Role == UserRole.Supplier)
+    {
+        var supplierProfile = await _dbContext.SupplierProfiles.FirstOrDefaultAsync(s => s.UserId == user.Id);
+        if (supplierProfile?.ApprovalStatus == ApprovalStatus.Rejected)
+            return (false, new[] { "Your supplier account application was rejected." }, null, null, null);
+        if (supplierProfile?.ApprovalStatus == ApprovalStatus.Pending)
+            return (false, new[] { "Your supplier account is pending admin approval." }, null, null, null);
+    }
+
+    var accessToken = _tokenService.GenerateAccessToken(user, user.Role.ToString());
+    var refreshToken = _tokenService.GenerateRefreshToken();
+
+    _dbContext.RefreshTokens.Add(new RefreshToken
+    {
+        UserId = user.Id,
+        Token = refreshToken,
+        ExpiresAt = DateTime.UtcNow.AddDays(7)
+    });
+    await _dbContext.SaveChangesAsync();
+
+    var response = new AuthResponse
+    {
+        UserId = user.Id,
+        FullName = user.FullName,
+        Email = user.Email!,
+        Role = user.Role.ToString()
+    };
+
+    return (true, Array.Empty<string>(), response, accessToken, refreshToken);
+}
     public async Task<(bool, string[])> ConfirmEmailAsync(Guid userId, string token)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());

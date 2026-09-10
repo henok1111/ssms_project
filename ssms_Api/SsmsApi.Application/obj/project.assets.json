@@ -1013,19 +1013,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dps\\.nuget\\packages\\": {}
+    "C:\\Users\\Henok\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj",
+      "projectUniqueName": "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj",
       "projectName": "SsmsApi.Application",
-      "projectPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj",
-      "packagesPath": "C:\\Users\\dps\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Application\\obj\\",
+      "projectPath": "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Application\\SsmsApi.Application.csproj",
+      "packagesPath": "C:\\Users\\Henok\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dps\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Henok\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -1038,8 +1038,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
-              "projectPath": "C:\\Users\\dps\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj"
+            "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj": {
+              "projectPath": "C:\\Users\\Henok\\ssms_project\\ssms_Api\\SsmsApi.Domain\\SsmsApi.Domain.csproj"
             }
           }
         }
