@@ -5,6 +5,7 @@ using SsmsApi.Infrastructure.Persistence;
 using SsmsApi.Application.Interfaces;
 using SsmsApi.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Scalar.AspNetCore;
@@ -12,6 +13,10 @@ using SsmsApi.Api.Hubs;
 using SsmsApi.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
 
 // Controllers
 builder.Services.AddControllers();
@@ -34,7 +39,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<SsmsDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDataProtection();
+var dataProtectionKeysPath = Path.Combine(builder.Environment.ContentRootPath, "DataProtectionKeys");
+Directory.CreateDirectory(dataProtectionKeysPath);
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath));
 
 // ---- Application services ----
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -46,7 +54,7 @@ builder.Services.AddScoped<IMaterialRequestService, MaterialRequestService>();
 builder.Services.AddScoped<IQuoteService, QuoteService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 //builder.Services.AddScoped<IPaymentGatewayService, FakeChapaPaymentGatewayService>();
-builder.Services.AddScoped<IPaymentGatewayService, FakeChapaPaymentGatewayService>();
+builder.Services.AddHttpClient<IPaymentGatewayService, ChapaPaymentGatewayService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IAdminService, AdminService>();

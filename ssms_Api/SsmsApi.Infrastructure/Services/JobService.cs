@@ -172,7 +172,7 @@ public JobService(SsmsDbContext dbContext, INotificationService notificationServ
     {
         var job = await _dbContext.Jobs
             .Include(j => j.Client)
-            .Include(j => j.Applications)
+            .Include(j => j.Applications).ThenInclude(a => a.Worker)
             .FirstOrDefaultAsync(j => j.Id == jobId);
 
 

@@ -37,10 +37,12 @@ public QuoteService(SsmsDbContext dbContext, INotificationService notificationSe
 
     public async Task<QuoteResponse> GenerateAsync(Guid jobId, Guid workerUserId, GenerateQuoteRequest request)
     {
+        
         var job = await _dbContext.Jobs
-            .Include(j => j.AssignedWorker)
-            .FirstOrDefaultAsync(j => j.Id == jobId)
-            ?? throw new InvalidOperationException("Job not found.");
+    .Include(j => j.AssignedWorker)
+    .Include(j => j.Client)
+    .FirstOrDefaultAsync(j => j.Id == jobId)
+    ?? throw new InvalidOperationException("Job not found.");
 
         if (job.AssignedWorker is null || job.AssignedWorker.UserId != workerUserId)
             throw new UnauthorizedAccessException("Only the assigned worker can generate a quote.");

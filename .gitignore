@@ -1,0 +1,8 @@
+# .NET Build Results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / VS Code caches
+.vs/
+*.suo
+*.user
