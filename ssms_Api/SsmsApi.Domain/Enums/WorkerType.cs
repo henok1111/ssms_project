@@ -1,7 +1,8 @@
 namespace SsmsApi.Domain.Enums;
 
+[Flags]
 public enum WorkerType
 {
-    OnSite,
-    Remote
+    OnSite = 1,
+    Remote = 2
 }

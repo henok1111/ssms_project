@@ -13,13 +13,14 @@ public class PaymentService : IPaymentService
     private readonly IPaymentGatewayService _gateway;
 
     private const decimal CommissionRate = 0.10m; // 10% platform commission — adjust as needed
+private readonly INotificationService _notificationService;
 
-    public PaymentService(SsmsDbContext dbContext, IPaymentGatewayService gateway)
-    {
-        _dbContext = dbContext;
-        _gateway = gateway;
-    }
-
+public PaymentService(SsmsDbContext dbContext, IPaymentGatewayService gateway, INotificationService notificationService)
+{
+    _dbContext = dbContext;
+    _gateway = gateway;
+    _notificationService = notificationService;
+}
     private static PaymentResponse ToResponse(Payment p) => new()
     {
         Id = p.Id,
@@ -125,6 +126,15 @@ public class PaymentService : IPaymentService
         payment.Job.Status = JobStatus.Closed;
 
         await _dbContext.SaveChangesAsync();
+        if (payment.Job.AssignedWorker is not null)
+{
+    await _notificationService.CreateAsync(
+        payment.Job.AssignedWorker.UserId,
+        NotificationType.PaymentReleased,
+        $"Payment of {payment.AmountReleasedToWorker} ETB has been released for \"{payment.Job.Title}\".",
+        payment.JobId
+    );
+}
         return true;
     }
 }

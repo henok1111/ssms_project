@@ -45,6 +45,7 @@ builder.Services.AddScoped<IMaterialItemService, MaterialItemService>();
 builder.Services.AddScoped<IMaterialRequestService, MaterialRequestService>();
 builder.Services.AddScoped<IQuoteService, QuoteService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+//builder.Services.AddScoped<IPaymentGatewayService, FakeChapaPaymentGatewayService>();
 builder.Services.AddScoped<IPaymentGatewayService, FakeChapaPaymentGatewayService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
@@ -53,7 +54,7 @@ builder.Services.AddScoped<IDisputeService, DisputeService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
-
+builder.Services.AddScoped<IMaterialOrderService, MaterialOrderService>();
 
 // ---- SignalR ----
 builder.Services.AddSignalR();

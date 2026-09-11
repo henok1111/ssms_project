@@ -16,19 +16,22 @@ public class AuthService : IAuthService
     private readonly ITokenService _tokenService;
     private readonly IEmailService _emailService;
     private readonly IConfiguration _configuration;
+    private readonly IFileStorageService _fileStorage;
 
     public AuthService(
         UserManager<ApplicationUser> userManager,
         SsmsDbContext dbContext,
         ITokenService tokenService,
         IEmailService emailService,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IFileStorageService fileStorage)
     {
         _userManager = userManager;
         _dbContext = dbContext;
         _tokenService = tokenService;
         _emailService = emailService;
         _configuration = configuration;
+        _fileStorage = fileStorage;
     }
 
     public async Task<(bool, string[], AuthResponse?, string?, string?)> RegisterAsync(RegisterRequest request)
@@ -116,69 +119,69 @@ public class AuthService : IAuthService
         return (true, Array.Empty<string>(), response, accessToken, refreshToken);
     }
 
-   public async Task<(bool, string[], AuthResponse?, string?, string?)> LoginAsync(LoginRequest request)
-{
-    var user = await _userManager.FindByEmailAsync(request.Email);
-
-    if (user is null)
-        return (false, new[] { "Invalid email or password." }, null, null, null);
-
-    var passwordValid = await _userManager.CheckPasswordAsync(user, request.Password);
-    if (!passwordValid)
+    public async Task<(bool, string[], AuthResponse?, string?, string?)> LoginAsync(LoginRequest request)
     {
-        await _userManager.AccessFailedAsync(user);
-        return (false, new[] { "Invalid email or password." }, null, null, null);
+        var user = await _userManager.FindByEmailAsync(request.Email);
+
+        if (user is null)
+            return (false, new[] { "Invalid email or password." }, null, null, null);
+
+        var passwordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+        if (!passwordValid)
+        {
+            await _userManager.AccessFailedAsync(user);
+            return (false, new[] { "Invalid email or password." }, null, null, null);
+        }
+
+        if (await _userManager.IsLockedOutAsync(user))
+            return (false, new[] { "Account is locked. Try again later." }, null, null, null);
+
+        await _userManager.ResetAccessFailedCountAsync(user);
+
+        // Block deactivated accounts entirely.
+        if (!user.IsActive)
+            return (false, new[] { "Your account has been deactivated. Contact support." }, null, null, null);
+
+        // Block Worker/Supplier accounts that are not yet Approved.
+        if (user.Role == UserRole.Worker)
+        {
+            var workerProfile = await _dbContext.WorkerProfiles.FirstOrDefaultAsync(w => w.UserId == user.Id);
+            if (workerProfile?.ApprovalStatus == ApprovalStatus.Rejected)
+                return (false, new[] { "Your worker account application was rejected." }, null, null, null);
+            if (workerProfile?.ApprovalStatus == ApprovalStatus.Pending)
+                return (false, new[] { "Your worker account is pending admin approval." }, null, null, null);
+        }
+
+        if (user.Role == UserRole.Supplier)
+        {
+            var supplierProfile = await _dbContext.SupplierProfiles.FirstOrDefaultAsync(s => s.UserId == user.Id);
+            if (supplierProfile?.ApprovalStatus == ApprovalStatus.Rejected)
+                return (false, new[] { "Your supplier account application was rejected." }, null, null, null);
+            if (supplierProfile?.ApprovalStatus == ApprovalStatus.Pending)
+                return (false, new[] { "Your supplier account is pending admin approval." }, null, null, null);
+        }
+
+        var accessToken = _tokenService.GenerateAccessToken(user, user.Role.ToString());
+        var refreshToken = _tokenService.GenerateRefreshToken();
+
+        _dbContext.RefreshTokens.Add(new RefreshToken
+        {
+            UserId = user.Id,
+            Token = refreshToken,
+            ExpiresAt = DateTime.UtcNow.AddDays(7)
+        });
+        await _dbContext.SaveChangesAsync();
+
+        var response = new AuthResponse
+        {
+            UserId = user.Id,
+            FullName = user.FullName,
+            Email = user.Email!,
+            Role = user.Role.ToString()
+        };
+
+        return (true, Array.Empty<string>(), response, accessToken, refreshToken);
     }
-
-    if (await _userManager.IsLockedOutAsync(user))
-        return (false, new[] { "Account is locked. Try again later." }, null, null, null);
-
-    await _userManager.ResetAccessFailedCountAsync(user);
-
-    // Block deactivated accounts entirely.
-    if (!user.IsActive)
-        return (false, new[] { "Your account has been deactivated. Contact support." }, null, null, null);
-
-    // Block Worker/Supplier accounts that are not yet Approved.
-    if (user.Role == UserRole.Worker)
-    {
-        var workerProfile = await _dbContext.WorkerProfiles.FirstOrDefaultAsync(w => w.UserId == user.Id);
-        if (workerProfile?.ApprovalStatus == ApprovalStatus.Rejected)
-            return (false, new[] { "Your worker account application was rejected." }, null, null, null);
-        if (workerProfile?.ApprovalStatus == ApprovalStatus.Pending)
-            return (false, new[] { "Your worker account is pending admin approval." }, null, null, null);
-    }
-
-    if (user.Role == UserRole.Supplier)
-    {
-        var supplierProfile = await _dbContext.SupplierProfiles.FirstOrDefaultAsync(s => s.UserId == user.Id);
-        if (supplierProfile?.ApprovalStatus == ApprovalStatus.Rejected)
-            return (false, new[] { "Your supplier account application was rejected." }, null, null, null);
-        if (supplierProfile?.ApprovalStatus == ApprovalStatus.Pending)
-            return (false, new[] { "Your supplier account is pending admin approval." }, null, null, null);
-    }
-
-    var accessToken = _tokenService.GenerateAccessToken(user, user.Role.ToString());
-    var refreshToken = _tokenService.GenerateRefreshToken();
-
-    _dbContext.RefreshTokens.Add(new RefreshToken
-    {
-        UserId = user.Id,
-        Token = refreshToken,
-        ExpiresAt = DateTime.UtcNow.AddDays(7)
-    });
-    await _dbContext.SaveChangesAsync();
-
-    var response = new AuthResponse
-    {
-        UserId = user.Id,
-        FullName = user.FullName,
-        Email = user.Email!,
-        Role = user.Role.ToString()
-    };
-
-    return (true, Array.Empty<string>(), response, accessToken, refreshToken);
-}
     public async Task<(bool, string[])> ConfirmEmailAsync(Guid userId, string token)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -223,58 +226,90 @@ public class AuthService : IAuthService
     }
 
     public async Task<(bool, string[], string?, string?)> RefreshTokenAsync(string refreshToken)
-{
-    var storedToken = await _dbContext.RefreshTokens
-        .Include(rt => rt.User)
-        .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
-
-    if (storedToken is null)
-        return (false, new[] { "Invalid refresh token." }, null, null);
-
-    if (storedToken.IsRevoked)
     {
-        // The same refresh token being reused after it was already rotated
-        // is a strong signal of theft — revoke the ENTIRE chain, not just this one.
-        await RevokeTokenChainAsync(storedToken);
-        return (false, new[] { "Token reuse detected. Please log in again." }, null, null);
+        var storedToken = await _dbContext.RefreshTokens
+            .Include(rt => rt.User)
+            .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+        if (storedToken is null)
+            return (false, new[] { "Invalid refresh token." }, null, null);
+
+        if (storedToken.IsRevoked)
+        {
+            // The same refresh token being reused after it was already rotated
+            // is a strong signal of theft — revoke the ENTIRE chain, not just this one.
+            await RevokeTokenChainAsync(storedToken);
+            return (false, new[] { "Token reuse detected. Please log in again." }, null, null);
+        }
+
+        if (storedToken.ExpiresAt < DateTime.UtcNow)
+            return (false, new[] { "Refresh token expired. Please log in again." }, null, null);
+
+        // Rotate: revoke the old token, issue a brand new pair.
+        var newAccessToken = _tokenService.GenerateAccessToken(storedToken.User, storedToken.User.Role.ToString());
+        var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+        storedToken.IsRevoked = true;
+        storedToken.ReplacedByToken = newRefreshToken;
+
+        _dbContext.RefreshTokens.Add(new RefreshToken
+        {
+            UserId = storedToken.UserId,
+            Token = newRefreshToken,
+            ExpiresAt = DateTime.UtcNow.AddDays(7)
+        });
+
+        await _dbContext.SaveChangesAsync();
+
+        return (true, Array.Empty<string>(), newAccessToken, newRefreshToken);
     }
 
-    if (storedToken.ExpiresAt < DateTime.UtcNow)
-        return (false, new[] { "Refresh token expired. Please log in again." }, null, null);
-
-    // Rotate: revoke the old token, issue a brand new pair.
-    var newAccessToken = _tokenService.GenerateAccessToken(storedToken.User, storedToken.User.Role.ToString());
-    var newRefreshToken = _tokenService.GenerateRefreshToken();
-
-    storedToken.IsRevoked = true;
-    storedToken.ReplacedByToken = newRefreshToken;
-
-    _dbContext.RefreshTokens.Add(new RefreshToken
+    private async Task RevokeTokenChainAsync(RefreshToken token)
     {
-        UserId = storedToken.UserId,
-        Token = newRefreshToken,
-        ExpiresAt = DateTime.UtcNow.AddDays(7)
-    });
+        token.IsRevoked = true;
+        var next = token.ReplacedByToken;
 
-    await _dbContext.SaveChangesAsync();
+        while (next is not null)
+        {
+            var nextToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == next);
+            if (nextToken is null) break;
 
-    return (true, Array.Empty<string>(), newAccessToken, newRefreshToken);
-}
+            nextToken.IsRevoked = true;
+            next = nextToken.ReplacedByToken;
+        }
 
-private async Task RevokeTokenChainAsync(RefreshToken token)
-{
-    token.IsRevoked = true;
-    var next = token.ReplacedByToken;
-
-    while (next is not null)
-    {
-        var nextToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == next);
-        if (nextToken is null) break;
-
-        nextToken.IsRevoked = true;
-        next = nextToken.ReplacedByToken;
+        await _dbContext.SaveChangesAsync();
     }
 
-    await _dbContext.SaveChangesAsync();
-}
+    public async Task<(bool, string?)> UploadProfilePictureAsync(
+        Guid userId, Stream fileStream, string fileName, string contentType)
+    {
+        var allowedTypes = new[] { "image/jpeg", "image/png", "image/webp" };
+        if (!allowedTypes.Contains(contentType))
+            return (false, null);
+
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user is null) return (false, null);
+
+        var url = await _fileStorage.SaveFileAsync(fileStream, fileName, contentType);
+        user.ProfilePictureUrl = url;
+        await _userManager.UpdateAsync(user);
+
+        return (true, url);
+    }
+
+    public async Task<AuthResponse?> GetCurrentUserAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user is null) return null;
+
+        return new AuthResponse
+        {
+            UserId = user.Id,
+            FullName = user.FullName,
+            Email = user.Email!,
+            Role = user.Role.ToString(),
+            ProfilePictureUrl = user.ProfilePictureUrl
+        };
+    }
 }

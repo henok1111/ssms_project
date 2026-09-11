@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SsmsApi.Application.Interfaces;
+using SsmsApi.Domain.Enums;
 
 namespace SsmsApi.Api.Controllers;
 
@@ -39,4 +40,19 @@ public class AdminController : ControllerBase
     [HttpPost("suppliers/{id:guid}/reject")]
     public async Task<IActionResult> RejectSupplier(Guid id) =>
         await _adminService.RejectSupplierAsync(id) ? Ok(new { message = "Supplier rejected." }) : NotFound();
+
+    [HttpGet("users")]
+    public async Task<IActionResult> GetUsers([FromQuery] UserRole? role)
+    {
+        var users = await _adminService.GetUsersAsync(role);
+        return Ok(users);
+    }
+
+    [HttpPost("users/{id:guid}/deactivate")]
+    public async Task<IActionResult> Deactivate(Guid id) =>
+        await _adminService.DeactivateUserAsync(id) ? Ok(new { message = "User deactivated." }) : NotFound();
+
+    [HttpPost("users/{id:guid}/reactivate")]
+    public async Task<IActionResult> Reactivate(Guid id) =>
+        await _adminService.ReactivateUserAsync(id) ? Ok(new { message = "User reactivated." }) : NotFound();
 }
