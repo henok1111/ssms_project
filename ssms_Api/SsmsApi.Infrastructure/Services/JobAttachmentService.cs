@@ -11,11 +11,13 @@ public class JobAttachmentService : IJobAttachmentService
     private readonly SsmsDbContext _dbContext;
     private readonly IFileStorageService _fileStorage;
 
-    private static readonly string[] AllowedContentTypes =
-        { "image/jpeg", "image/png", "image/webp", "application/pdf" };
+  private static readonly string[] AllowedContentTypes =
+{
+    "image/jpeg", "image/png", "image/webp", "application/pdf",
+    "audio/mpeg", "audio/mp3", "audio/wav", "audio/ogg", "audio/webm", "audio/mp4"
+};
 
-    private const long MaxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
-
+private const long MaxFileSizeBytes = 10 * 1024 * 1024; // bumped to 10MB — voice notes run larger than a typical photo
     public JobAttachmentService(SsmsDbContext dbContext, IFileStorageService fileStorage)
     {
         _dbContext = dbContext;

@@ -11,7 +11,8 @@ using System.Text;
 using Scalar.AspNetCore;
 using SsmsApi.Api.Hubs;
 using SsmsApi.Api.Services;
-
+using SsmsApi.Application.Interfaces.Marketplace;
+using SsmsApi.Infrastructure.Services.Marketplace;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
@@ -63,6 +64,19 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 builder.Services.AddScoped<IMaterialOrderService, MaterialOrderService>();
+builder.Services.AddScoped<IWorkerSkillService, WorkerSkillService>();
+
+
+
+//market place services
+builder.Services.AddScoped<IListingService, ListingService>();
+builder.Services.AddScoped<IListingMediaService, ListingMediaService>();
+builder.Services.AddScoped<IListingCategoryService, ListingCategoryService>();
+builder.Services.AddScoped<IListingOfferService, ListingOfferService>();
+builder.Services.AddScoped<IListingChatService, ListingChatService>();
+builder.Services.AddScoped<IListingReportService, ListingReportService>();
+builder.Services.AddScoped<ISavedListingService, SavedListingService>();
+
 
 // ---- SignalR ----
 builder.Services.AddSignalR();

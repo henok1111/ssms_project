@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SsmsApi.Domain.Entities;
-
+using SsmsApi.Domain.Entities.Marketplace;
 namespace SsmsApi.Infrastructure.Persistence;
 
 public class SsmsDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
@@ -35,6 +35,19 @@ public class SsmsDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Gui
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<Notification> Notifications => Set<Notification>();
 
+// Marketplace
+public DbSet<ListingCategory> ListingCategories => Set<ListingCategory>();
+public DbSet<Listing> Listings => Set<Listing>();public DbSet<ListingReport> ListingReports => Set<ListingReport>();
+
+public DbSet<ListingMedia> ListingMedia => Set<ListingMedia>();
+public DbSet<ListingOffer> ListingOffers => Set<ListingOffer>();
+public DbSet<ListingConversation> ListingConversations => Set<ListingConversation>();
+public DbSet<ListingMessage> ListingMessages => Set<ListingMessage>();
+    
+    
+    public DbSet<SavedListing> SavedListings => Set<SavedListing>();
+    
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder); // must come first — sets up Identity's own tables

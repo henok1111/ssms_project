@@ -7,13 +7,13 @@ namespace SsmsApi.Api.Hubs;
 public class ChatHub : Hub
 {
     // Client calls this after connecting, to join the "room" for a specific Job.
-    public async Task JoinJobGroup(string jobId)
-    {
-        await Groups.AddToGroupAsync(Context.ConnectionId, $"job-{jobId}");
-    }
+  public async Task JoinListingConversation(string conversationId)
+{
+    await Groups.AddToGroupAsync(Context.ConnectionId, $"listing-conversation-{conversationId}");
+}
 
-    public async Task LeaveJobGroup(string jobId)
-    {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"job-{jobId}");
-    }
+public async Task LeaveListingConversation(string conversationId)
+{
+    await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"listing-conversation-{conversationId}");
+}
 }

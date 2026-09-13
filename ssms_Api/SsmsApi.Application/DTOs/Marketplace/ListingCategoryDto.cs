@@ -1,0 +1,12 @@
+namespace SsmsApi.Application.DTOs.Marketplace;
+
+public class CreateListingCategoryRequest
+{
+    public string Name { get; set; } = string.Empty;
+}
+
+public class ListingCategoryResponse
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+}

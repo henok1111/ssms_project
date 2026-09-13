@@ -1,11 +1,8 @@
-using SsmsApi.Application.DTOs.Messages;
-using SsmsApi.Application.DTOs.Notifications;
-
 namespace SsmsApi.Application.Interfaces;
 
 public interface IRealtimeNotifier
 {
-    Task SendMessageToJobGroupAsync(Guid jobId, MessageResponse message);
+    Task SendToGroupAsync(string groupName, string eventName, object payload);
 
-    Task SendNotificationToUserAsync(Guid userId, NotificationResponse notification);
+    Task SendNotificationToUserAsync(Guid userId, object notification);
 }

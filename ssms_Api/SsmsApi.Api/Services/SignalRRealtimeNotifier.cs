@@ -26,4 +26,14 @@ public class SignalRRealtimeNotifier : IRealtimeNotifier
         // claim in the JWT — the same claim your controllers already read via CurrentUserId.
         await _hubContext.Clients.User(userId.ToString()).SendAsync("ReceiveNotification", notification);
     }
+
+    public async Task SendToGroupAsync(string groupName, string eventName, object payload)
+{
+    await _hubContext.Clients.Group(groupName).SendAsync(eventName, payload);
+}
+
+public async Task SendNotificationToUserAsync(Guid userId, object notification)
+{
+    await _hubContext.Clients.User(userId.ToString()).SendAsync("ReceiveNotification", notification);
+}
 }

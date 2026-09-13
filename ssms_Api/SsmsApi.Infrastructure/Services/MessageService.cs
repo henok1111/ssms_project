@@ -74,8 +74,7 @@ public class MessageService : IMessageService
         var response = ToResponse(message);
 
         // Push it live to anyone currently viewing this job's chat.
-        await _realtime.SendMessageToJobGroupAsync(jobId, response);
-
+      await _realtime.SendToGroupAsync($"job-{jobId}", "ReceiveMessage", response);
         return response;
     }
 
