@@ -4,7 +4,6 @@ using SsmsApi.Application.Interfaces;
 using SsmsApi.Domain.Entities;
 using SsmsApi.Domain.Enums;
 using SsmsApi.Infrastructure.Persistence;
-
 namespace SsmsApi.Infrastructure.Services;
 
 public class PaymentService : IPaymentService
