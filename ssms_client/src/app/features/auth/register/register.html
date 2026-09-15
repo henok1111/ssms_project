@@ -1,0 +1,82 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="subtitle">Join SSMS as a Client, Worker, or Supplier</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" formControlName="fullName" placeholder="Abebe Kebede" />
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="field">
+        <label for="phoneNumber">Phone Number</label>
+        <input id="phoneNumber" type="tel" formControlName="phoneNumber" placeholder="0911223344" />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" placeholder="At least 8 characters" />
+      </div>
+
+      <div class="field">
+        <label for="role">I am a...</label>
+        <select id="role" formControlName="role">
+          <option [value]="UserRole.Client">Client (I need work done)</option>
+          <option [value]="UserRole.Worker">Worker (I do jobs)</option>
+          <option [value]="UserRole.Supplier">Supplier (I sell materials)</option>
+        </select>
+      </div>
+
+      @if (isWorker) {
+        <div class="conditional-section">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="onSite" /> I work on-site
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="remote" /> I work remotely
+          </label>
+
+          <div class="field">
+            <label for="serviceArea">Service Area</label>
+            <input id="serviceArea" type="text" formControlName="serviceArea" placeholder="Bole, Addis Ababa" />
+          </div>
+        </div>
+      }
+
+      @if (isSupplier) {
+        <div class="conditional-section">
+          <div class="field">
+            <label for="shopName">Shop Name</label>
+            <input id="shopName" type="text" formControlName="shopName" placeholder="Your business name" />
+          </div>
+          <div class="field">
+            <label for="supplierLocation">Shop Location</label>
+            <input id="supplierLocation" type="text" formControlName="supplierLocation" placeholder="Merkato, Addis Ababa" />
+          </div>
+        </div>
+      }
+
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <button type="submit" [disabled]="form.invalid || isLoading">
+        @if (isLoading) {
+          <app-loading-spinner size="small"></app-loading-spinner>
+        } @else {
+          Create Account
+        }
+      </button>
+    </form>
+
+    <div class="links">
+      <span>Already have an account? <a routerLink="/login">Log in</a></span>
+    </div>
+  </div>
+</div>

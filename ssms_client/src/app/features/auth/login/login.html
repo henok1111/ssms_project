@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h1>hello back</h1>
+    <p class="subtitle">Log in to your SSMS account</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email"  />
+        @if (form.get('email')?.touched && form.get('email')?.invalid) {
+          <span class="field-error">Enter a valid email address</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password"  />
+        @if (form.get('password')?.touched && form.get('password')?.invalid) {
+          <span class="field-error">Password is required</span>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <button type="submit" [disabled]="form.invalid || isLoading">
+  @if (isLoading) {
+    <app-loading-spinner size="small"></app-loading-spinner>
+  } @else {
+    Log In
+  }
+</button>
+    </form>
+
+    <div class="links">
+      <a routerLink="/forgot-password">Forgot password?</a>
+      <span>Don't have an account? <a routerLink="/register">Register</a></span>
+    </div>
+  </div>
+</div>

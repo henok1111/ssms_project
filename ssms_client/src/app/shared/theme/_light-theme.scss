@@ -1,0 +1,72 @@
+[data-theme='light'] {
+  // Surfaces
+  --color-bg-base: #f7f8fa;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: #ffffff;
+  --color-bg-hover: #f0f1f3;
+  --color-bg-selected: #e8f0fe;
+
+  // Text
+  --color-text-primary: #1a1d23;
+  --color-text-secondary: #4b5160;
+  --color-text-muted: #8a8f98;
+  --color-text-disabled: #c2c5cb;
+  --color-text-inverse: #ffffff;
+
+  // Borders
+  --color-border: #e2e4e8;
+  --color-border-strong: #c7cad1;
+  --color-divider: #ebedf0;
+
+  // Brand
+  --color-primary: #2f6fed;
+  --color-primary-hover: #2559c7;
+  --color-primary-active: #1e47a3;
+  --color-primary-subtle: #e8f0fe;
+
+  --color-secondary: #6b7280;
+  --color-secondary-hover: #545a66;
+
+  // Semantic states
+  --color-success: #1f9d55;
+  --color-success-bg: #e6f7ec;
+  --color-success-border: #a8e6bd;
+
+  --color-danger: #d92d20;
+  --color-danger-bg: #fdecec;
+  --color-danger-border: #f5b5b0;
+
+  --color-warning: #b54708;
+  --color-warning-bg: #fff4e5;
+  --color-warning-border: #f5c98f;
+
+  --color-info: #175cd3;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #a9cdf5;
+
+  // Links
+  --color-link: #2f6fed;
+  --color-link-hover: #1e47a3;
+
+  // Forms
+  --color-input-bg: #ffffff;
+  --color-input-border: #d0d3d9;
+  --color-input-border-focus: #2f6fed;
+  --color-input-placeholder: #9aa0aa;
+
+  // Shadows & overlays
+  --color-shadow: 15, 23, 42;          // used as rgba(var(--color-shadow), 0.1)
+  --color-overlay: rgba(15, 23, 42, 0.45);
+
+  // Icons
+  --color-icon: #4b5160;
+  --color-icon-muted: #9aa0aa;
+
+  // Scrollbar
+  --color-scrollbar-track: #f0f1f3;
+  --color-scrollbar-thumb: #c7cad1;
+
+  // Glow effects
+  --color-glow: rgba(47, 111, 237, 0.15);
+  --color-glow-strong: rgba(47, 111, 237, 0.35);
+}

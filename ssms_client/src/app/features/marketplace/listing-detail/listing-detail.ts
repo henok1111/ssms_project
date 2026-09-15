@@ -1,0 +1,9 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-listing-detail',
+  imports: [],
+  templateUrl: './listing-detail.html',
+  styleUrl: './listing-detail.scss',
+})
+export class ListingDetail {}

@@ -1,0 +1,15 @@
+<header class="navbar">
+  <div class="navbar-brand">SSMS</div>
+
+  <div class="navbar-actions">
+    <app-theme-toggle></app-theme-toggle>
+
+    @if (authService.currentUser(); as user) {
+      <div class="user-info">
+        <span class="user-name">{{ user.fullName }}</span>
+        <span class="user-role">{{ user.role }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">Log out</button>
+    }
+  </div>
+</header>

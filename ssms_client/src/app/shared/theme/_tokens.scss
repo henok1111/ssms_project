@@ -1,0 +1,77 @@
+// This file defines WHICH roles exist — not their actual colors.
+// Both light and dark theme files must define a value for every
+// single variable listed here. Nothing in the app ever uses a raw
+// hex code directly — only these variable names.
+
+:root {
+  // ---- Surfaces (backgrounds at different elevation levels) ----
+  --color-bg-base: initial;         // the page's root background
+  --color-bg-surface: initial;      // cards, panels, sidebars
+  --color-bg-elevated: initial;     // modals, dropdowns, popovers
+  --color-bg-hover: initial;        // hover state on list items, rows
+  --color-bg-selected: initial;     // selected/active list item
+
+  // ---- Text ----
+  --color-text-primary: initial;    // main body text, headings
+  --color-text-secondary: initial;  // subtitles, less important text
+  --color-text-muted: initial;      // placeholders, timestamps, captions
+  --color-text-disabled: initial;
+  --color-text-inverse: initial;    // text on top of a filled/dark button
+
+  // ---- Borders & dividers ----
+  --color-border: initial;
+  --color-border-strong: initial;   // input focus borders, emphasized dividers
+  --color-divider: initial;
+
+  // ---- Brand / primary actions ----
+  --color-primary: initial;
+  --color-primary-hover: initial;
+  --color-primary-active: initial;
+  --color-primary-subtle: initial;  // light tinted background (e.g. selected tab)
+
+  --color-secondary: initial;
+  --color-secondary-hover: initial;
+
+  // ---- Semantic states — each with bg/text/border trio ----
+  --color-success: initial;
+  --color-success-bg: initial;
+  --color-success-border: initial;
+
+  --color-danger: initial;
+  --color-danger-bg: initial;
+  --color-danger-border: initial;
+
+  --color-warning: initial;
+  --color-warning-bg: initial;
+  --color-warning-border: initial;
+
+  --color-info: initial;
+  --color-info-bg: initial;
+  --color-info-border: initial;
+
+  // ---- Links ----
+  --color-link: initial;
+  --color-link-hover: initial;
+
+  // ---- Forms / inputs ----
+  --color-input-bg: initial;
+  --color-input-border: initial;
+  --color-input-border-focus: initial;
+  --color-input-placeholder: initial;
+
+  // ---- Shadows & overlays ----
+  --color-shadow: initial;          // used inside box-shadow rgba()
+  --color-overlay: initial;         // modal backdrop
+
+  // ---- Icons ----
+  --color-icon: initial;
+  --color-icon-muted: initial;
+
+  // ---- Scrollbar ----
+  --color-scrollbar-track: initial;
+  --color-scrollbar-thumb: initial;
+
+    // ---- Glow / focus effects ----
+  --color-glow: initial;
+  --color-glow-strong: initial;
+}
