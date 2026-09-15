@@ -30,7 +30,7 @@ export class ThemeService {
   }
 
   private getInitialTheme(): ThemeMode {
-    if (!this.isBrowser) return 'light'; // safe default during server render
+    if (!this.isBrowser) return 'dark'; // safe default during server render
 
     const saved = localStorage.getItem(this.storageKey) as ThemeMode | null;
     if (saved === 'light' || saved === 'dark') return saved;
