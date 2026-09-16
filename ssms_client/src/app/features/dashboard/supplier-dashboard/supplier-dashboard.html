@@ -1,1 +1,72 @@
-<p>supplier-dashboard works!</p>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1>Welcome back, {{ authService.currentUser()?.fullName }}</h1>
+      <p class="subtitle">Manage your catalog and orders</p>
+    </div>
+    <a routerLink="/materials/post" class="btn-primary">+ List Material</a>
+  </div>
+
+  <div class="stats-row">
+    <app-card>
+      <span class="stat-label">Catalog Items</span>
+      <span class="stat-value">{{ items().length }}</span>
+    </app-card>
+    <app-card>
+      <span class="stat-label">Pending Orders</span>
+      <span class="stat-value">{{ pendingOrdersCount }}</span>
+    </app-card>
+    <app-card>
+      <span class="stat-label">Low Stock</span>
+      <span class="stat-value">{{ lowStockCount }}</span>
+    </app-card>
+  </div>
+
+  <h2>Incoming Orders</h2>
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (orders().length === 0) {
+    <app-card><p class="empty-text">No orders yet.</p></app-card>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders(); track order.id) {
+        <app-card>
+          <div class="order-row">
+            <div>
+              <h3>{{ order.materialItemName }}</h3>
+              <p class="job-meta">Qty: {{ order.quantityOrdered }} · {{ order.totalPrice }} ETB</p>
+            </div>
+            <div class="order-right">
+              <span class="job-status" [attr.data-status]="order.status">{{ OrderStatus[order.status] }}</span>
+              @if (order.status === OrderStatus.Pending) {
+                <button (click)="onConfirm(order.id)" [disabled]="actionLoading() === order.id">Confirm</button>
+              }
+              @if (order.status === OrderStatus.Confirmed) {
+                <button (click)="onFulfill(order.id)" [disabled]="actionLoading() === order.id">Mark Fulfilled</button>
+              }
+            </div>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+
+  <h2 class="section-spacer">My Catalog</h2>
+  @if (items().length === 0) {
+    <app-card><p class="empty-text">You haven't listed any materials yet.</p></app-card>
+  } @else {
+    <div class="orders-list">
+      @for (item of items(); track item.id) {
+        <app-card>
+          <div class="order-row">
+            <div>
+              <h3>{{ item.name }}</h3>
+              <p class="job-meta">{{ item.categoryName }} · {{ item.pricePerUnit }} ETB / {{ item.unit }}</p>
+            </div>
+            <span class="stock-badge" [class.low]="item.stockQuantity < 5">{{ item.stockQuantity }} in stock</span>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</div>

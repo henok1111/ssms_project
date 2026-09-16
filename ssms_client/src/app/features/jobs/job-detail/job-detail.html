@@ -1,1 +1,92 @@
-<p>job-detail works!</p>
+@if (isLoading()) {
+  <div class="center-spinner"><app-loading-spinner size="large"></app-loading-spinner></div>
+} @else if (job(); as j) {
+  <div class="job-detail">
+    <app-card>
+      <div class="job-header">
+        <div>
+          <h1>{{ j.title }}</h1>
+          <p class="job-meta">{{ j.categoryName }} · {{ j.location || 'Remote' }} · Posted by {{ j.clientName }}</p>
+        </div>
+        <span class="job-status" [attr.data-status]="j.status">{{ JobStatus[j.status] }}</span>
+      </div>
+
+      <p class="job-description">{{ j.description }}</p>
+
+      <div class="job-budget-row">
+        <span class="label">Budget</span>
+        <span class="value">{{ j.budget }} ETB</span>
+      </div>
+
+      @if (j.assignedWorkerName) {
+        <div class="job-budget-row">
+          <span class="label">Assigned to</span>
+          <span class="value">{{ j.assignedWorkerName }}</span>
+        </div>
+      }
+    </app-card>
+
+    @if (actionError()) {
+      <div class="error-banner">{{ actionError() }}</div>
+    }
+
+    <!-- Worker: apply form, only if Open and not already the owner -->
+    @if (userRole === 'Worker' && j.status === JobStatus.Open) {
+      <app-card>
+        <h2>Apply for this job</h2>
+        <form [formGroup]="applyForm" (ngSubmit)="onApply()">
+          <div class="field">
+            <label>Your Proposed Price (ETB)</label>
+            <input type="number" formControlName="proposedPrice" min="1" />
+          </div>
+          <div class="field">
+            <label>Message (optional)</label>
+            <textarea formControlName="message" rows="3"></textarea>
+          </div>
+          <button type="submit" [disabled]="applyForm.invalid || actionLoading()">
+            @if (actionLoading()) { <app-loading-spinner size="small"></app-loading-spinner> } @else { Submit Application }
+          </button>
+        </form>
+      </app-card>
+    }
+
+    <!-- Assigned Worker: start/complete actions -->
+    @if (isAssignedWorker) {
+      <app-card>
+        @if (j.status === JobStatus.Assigned) {
+          <button (click)="onStartJob()" [disabled]="actionLoading()">Start Job</button>
+        }
+        @if (j.status === JobStatus.InProgress) {
+          <button (click)="onCompleteJob()" [disabled]="actionLoading()">Mark as Complete</button>
+        }
+      </app-card>
+    }
+
+    <!-- Owner: applications list -->
+    @if (isOwner) {
+      <app-card>
+        <h2>Applications ({{ applications().length }})</h2>
+        @if (applications().length === 0) {
+          <p class="empty-text">No applications yet.</p>
+        } @else {
+          <div class="applications-list">
+            @for (app of applications(); track app.id) {
+              <div class="application-row">
+                <div>
+                  <strong>{{ app.workerName }}</strong>
+                  <p class="job-meta">Proposed: {{ app.proposedPrice }} ETB</p>
+                  @if (app.message) { <p class="app-message">"{{ app.message }}"</p> }
+                </div>
+                @if (app.status === ApplicationStatus.Pending && j.status === JobStatus.Open) {
+                  <button (click)="onAcceptApplication(app.id)" [disabled]="actionLoading()">Accept</button>
+                } @else {
+                  <span class="job-status" [attr.data-status]="app.status">{{ ApplicationStatus[app.status] }}</span>
+                }
+              </div>
+            }
+          </div>
+        }
+      </app-card>
+    }
+  </div>
+}

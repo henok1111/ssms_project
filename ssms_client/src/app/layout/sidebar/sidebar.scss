@@ -1,36 +1,39 @@
 .sidebar {
-  display: flex;
-  flex-direction: column;
   width: 220px;
-  min-width: 220px;
+  background-color: var(--color-bg-surface);
+  border-right: 1px solid var(--color-border);
+  padding: 16px 8px;
   height: 100%;
-  background-color: #1a1a2e;
-  padding: 1rem 0.5rem;
-  box-sizing: border-box;
-  overflow-y: auto;
 }
 
-.nav-item {
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-link {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.65rem 1rem;
-  color: #cfcfe8;
-  text-decoration: none;
+  gap: 10px;
+  padding: 10px 14px;
   border-radius: 8px;
-  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 14px;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: var(--color-bg-hover);
+    color: var(--color-text-primary);
   }
 
   &.active {
-    background-color: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
+    background-color: var(--color-primary-subtle);
+    color: var(--color-primary);
     font-weight: 600;
   }
-}
 
-.nav-icon {
-  font-size: 1.1rem;
+  .icon {
+    font-size: 16px;
+  }
 }

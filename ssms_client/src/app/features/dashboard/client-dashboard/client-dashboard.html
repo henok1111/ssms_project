@@ -1,4 +1,51 @@
-<div style="padding: 24px;">
-  <h1>Client Dashboard</h1>
-  <p>Welcome back!</p>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1>Welcome back, {{ authService.currentUser()?.fullName }}</h1>
+      <p class="subtitle">Here's what's happening with your jobs</p>
+    </div>
+    <a routerLink="/jobs/post" class="btn-primary">+ Post a Job</a>
+  </div>
+
+  <div class="stats-row">
+    <app-card>
+      <span class="stat-label">Total Jobs</span>
+      <span class="stat-value">{{ jobs().length }}</span>
+    </app-card>
+    <app-card>
+      <span class="stat-label">Active Jobs</span>
+      <span class="stat-value">{{ activeJobsCount }}</span>
+    </app-card>
+    <app-card>
+      <span class="stat-label">In Progress</span>
+      <span class="stat-value">{{ pendingQuotesCount }}</span>
+    </app-card>
+  </div>
+
+  <h2>My Jobs</h2>
+
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (jobs().length === 0) {
+    <app-card>
+      <p class="empty-text">You haven't posted any jobs yet.</p>
+    </app-card>
+  } @else {
+    <div class="jobs-list">
+      @for (job of jobs(); track job.id) {
+        <app-card>
+          <div class="job-row">
+            <div>
+              <h3>{{ job.title }}</h3>
+              <p class="job-meta">{{ job.categoryName }} · {{ job.location || 'Remote' }}</p>
+            </div>
+            <div class="job-right">
+              <span class="job-budget">{{ job.budget }} ETB</span>
+              <span class="job-status" [attr.data-status]="job.status">{{ JobStatus[job.status] }}</span>
+            </div>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
 </div>

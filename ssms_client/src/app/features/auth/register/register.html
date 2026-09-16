@@ -33,7 +33,7 @@
         </select>
       </div>
 
-      @if (isWorker) {
+      @if (toNumber(form.get('role')?.value) === UserRole.Worker) {
         <div class="conditional-section">
           <label class="checkbox-label">
             <input type="checkbox" formControlName="onSite" /> I work on-site
@@ -49,7 +49,7 @@
         </div>
       }
 
-      @if (isSupplier) {
+      @if (toNumber(form.get('role')?.value) === UserRole.Supplier) {
         <div class="conditional-section">
           <div class="field">
             <label for="shopName">Shop Name</label>

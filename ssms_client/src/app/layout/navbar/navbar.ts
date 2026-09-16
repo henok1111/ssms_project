@@ -14,7 +14,7 @@ export class Navbar {
   authService = inject(AuthService);
   private router = inject(Router);
 
-  logout(): void {
+  onLogout(): void {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/login']);
     });

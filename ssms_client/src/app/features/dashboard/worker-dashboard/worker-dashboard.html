@@ -1,1 +1,62 @@
-<p>worker-dashboard works!</p>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1>Welcome back, {{ authService.currentUser()?.fullName }}</h1>
+      <p class="subtitle">Find new work or check on your active jobs</p>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <app-card>
+      <span class="stat-label">Open Jobs Available</span>
+      <span class="stat-value">{{ openJobs().length }}</span>
+    </app-card>
+    <app-card>
+      <span class="stat-label">My Active Jobs</span>
+      <span class="stat-value">{{ activeAssignedCount }}</span>
+    </app-card>
+  </div>
+
+  <h2>My Assigned Jobs</h2>
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (assignedJobs().length === 0) {
+    <app-card><p class="empty-text">No assigned jobs yet — browse open jobs below.</p></app-card>
+  } @else {
+    <div class="jobs-list">
+      @for (job of assignedJobs(); track job.id) {
+        <app-card>
+          <a [routerLink]="['/jobs', job.id]" class="job-row">
+            <div>
+              <h3>{{ job.title }}</h3>
+              <p class="job-meta">{{ job.categoryName }} · {{ job.location || 'Remote' }}</p>
+            </div>
+            <div class="job-right">
+              <span class="job-budget">{{ job.budget }} ETB</span>
+              <span class="job-status" [attr.data-status]="job.status">{{ JobStatus[job.status] }}</span>
+            </div>
+          </a>
+        </app-card>
+      }
+    </div>
+  }
+
+  <h2 class="section-spacer">Open Jobs</h2>
+  @if (openJobs().length === 0) {
+    <app-card><p class="empty-text">No open jobs right now. Check back soon.</p></app-card>
+  } @else {
+    <div class="jobs-list">
+      @for (job of openJobs(); track job.id) {
+        <app-card>
+          <a [routerLink]="['/jobs', job.id]" class="job-row">
+            <div>
+              <h3>{{ job.title }}</h3>
+              <p class="job-meta">{{ job.categoryName }} · {{ job.location || 'Remote' }}</p>
+            </div>
+            <span class="job-budget">{{ job.budget }} ETB</span>
+          </a>
+        </app-card>
+      }
+    </div>
+  }
+</div>

@@ -1,72 +1,72 @@
 [data-theme='light'] {
-  // Surfaces
-  --color-bg-base: #f7f8fa;
+  /* Surfaces - Using the softest ice blue with a clean subtle gradient */
+  --color-bg-base: linear-gradient(135deg, #D1DBE4 0%, #b8c8d5 100%);
   --color-bg-surface: #ffffff;
   --color-bg-elevated: #ffffff;
-  --color-bg-hover: #f0f1f3;
-  --color-bg-selected: #e8f0fe;
+  --color-bg-hover: #f0f4f8;
+  --color-bg-selected: #e1ebf3;
 
-  // Text
-  --color-text-primary: #1a1d23;
-  --color-text-secondary: #4b5160;
-  --color-text-muted: #8a8f98;
-  --color-text-disabled: #c2c5cb;
+  /* Text - High contrast deep steel and navy blue */
+  --color-text-primary: #002e52;
+  --color-text-secondary: #013c6d;
+  --color-text-muted: #A2B6C7;
+  --color-text-disabled: #cbd5e1;
   --color-text-inverse: #ffffff;
 
-  // Borders
-  --color-border: #e2e4e8;
-  --color-border-strong: #c7cad1;
-  --color-divider: #ebedf0;
+  /* Borders - Framed with soft slate blue */
+  --color-border: #A2B6C7;
+  --color-border-strong: #7492AA;
+  --color-divider: #D1DBE4;
 
-  // Brand
-  --color-primary: #2f6fed;
-  --color-primary-hover: #2559c7;
-  --color-primary-active: #1e47a3;
-  --color-primary-subtle: #e8f0fe;
+  /* Brand - Powered by the rich navy blue */
+  --color-primary: #194A7A;
+  --color-primary-hover: #13385d;
+  --color-primary-active: #0d2741;
+  --color-primary-subtle: #e1ebf3;
 
-  --color-secondary: #6b7280;
-  --color-secondary-hover: #545a66;
+  --color-secondary: #7492AA;
+  --color-secondary-hover: #456E8D;
 
-  // Semantic states
-  --color-success: #1f9d55;
-  --color-success-bg: #e6f7ec;
-  --color-success-border: #a8e6bd;
+  /* Semantic states using the palette's blue progression */
+  --color-success: #194A7A;
+  --color-success-bg: #e1ebf3;
+  --color-success-border: #A2B6C7;
 
-  --color-danger: #d92d20;
-  --color-danger-bg: #fdecec;
-  --color-danger-border: #f5b5b0;
+  --color-danger: #b91c1c; /* Kept standard alert red for safety */
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #fecaca;
 
-  --color-warning: #b54708;
-  --color-warning-bg: #fff4e5;
-  --color-warning-border: #f5c98f;
+  --color-warning: #b45309; 
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
 
-  --color-info: #175cd3;
-  --color-info-bg: #eff6ff;
-  --color-info-border: #a9cdf5;
+  --color-info: #456E8D;
+  --color-info-bg: #e1ebf3;
+  --color-info-border: #7492AA;
 
-  // Links
-  --color-link: #2f6fed;
-  --color-link-hover: #1e47a3;
+  /* Links */
+  --color-link: #194A7A;
+  --color-link-hover: #456E8D;
 
-  // Forms
+  /* Forms */
   --color-input-bg: #ffffff;
-  --color-input-border: #d0d3d9;
-  --color-input-border-focus: #2f6fed;
-  --color-input-placeholder: #9aa0aa;
+  --color-input-border: #A2B6C7;
+  --color-input-border-focus: #194A7A;
+  --color-input-placeholder: #7492AA;
 
-  // Shadows & overlays
-  --color-shadow: 15, 23, 42;          // used as rgba(var(--color-shadow), 0.1)
-  --color-overlay: rgba(15, 23, 42, 0.45);
+  /* Shadows & overlays */
+  --color-shadow: 25, 74, 122;
+  --color-overlay: rgba(25, 74, 122, 0.45);
 
-  // Icons
-  --color-icon: #4b5160;
-  --color-icon-muted: #9aa0aa;
+  /* Icons */
+  --color-icon: #456E8D;
+  --color-icon-muted: #A2B6C7;
 
-  // Scrollbar
-  --color-scrollbar-track: #f0f1f3;
-  --color-scrollbar-thumb: #c7cad1;
+  /* Scrollbar */
+  --color-scrollbar-track: #D1DBE4;
+  --color-scrollbar-thumb: #7492AA;
 
-  // Glow effects
-  --color-glow: rgba(47, 111, 237, 0.15);
-  --color-glow-strong: rgba(47, 111, 237, 0.35);
+  /* Glow effects - Tailored to the rich navy blue */
+  --color-glow: rgba(25, 74, 122, 0.25);
+  --color-glow-strong: rgba(25, 74, 122, 0.45);
 }

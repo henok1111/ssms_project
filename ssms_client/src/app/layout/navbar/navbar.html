@@ -1,15 +1,19 @@
-<header class="navbar">
+<nav class="navbar">
   <div class="navbar-brand">SSMS</div>
 
-  <div class="navbar-actions">
+  <div class="navbar-right">
     <app-theme-toggle></app-theme-toggle>
 
     @if (authService.currentUser(); as user) {
       <div class="user-info">
+        @if (user.profilePictureUrl) {
+          <img [src]="user.profilePictureUrl" class="avatar" alt="Profile" />
+        } @else {
+          <div class="avatar-placeholder">{{ user.fullName.charAt(0) }}</div>
+        }
         <span class="user-name">{{ user.fullName }}</span>
-        <span class="user-role">{{ user.role }}</span>
       </div>
-      <button class="logout-btn" (click)="logout()">Log out</button>
+      <button class="logout-btn" (click)="onLogout()">Log Out</button>
     }
   </div>
-</header>
+</nav>

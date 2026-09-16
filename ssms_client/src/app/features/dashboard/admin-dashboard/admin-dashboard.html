@@ -1,1 +1,57 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p class="subtitle">Platform overview and pending approvals</p>
+  </div>
+
+  <app-card>
+    <h2>Signups This Week</h2>
+    <app-signups-chart [labels]="chartLabels" [data]="chartData"></app-signups-chart>
+  </app-card>
+
+  <h2 class="section-spacer">Pending Worker Approvals</h2>
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (pendingWorkers().length === 0) {
+    <app-card><p class="empty-text">No pending worker approvals.</p></app-card>
+  } @else {
+    <div class="approval-list">
+      @for (w of pendingWorkers(); track w.id) {
+        <app-card>
+          <div class="approval-row">
+            <div>
+              <strong>{{ w.fullName }}</strong>
+              <p class="job-meta">{{ w.email }}</p>
+            </div>
+            <div class="approval-actions">
+              <button class="approve" (click)="onApproveWorker(w.id)" [disabled]="actionLoading() === w.id">Approve</button>
+              <button class="reject" (click)="onRejectWorker(w.id)" [disabled]="actionLoading() === w.id">Reject</button>
+            </div>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+
+  <h2 class="section-spacer">Pending Supplier Approvals</h2>
+  @if (pendingSuppliers().length === 0) {
+    <app-card><p class="empty-text">No pending supplier approvals.</p></app-card>
+  } @else {
+    <div class="approval-list">
+      @for (s of pendingSuppliers(); track s.id) {
+        <app-card>
+          <div class="approval-row">
+            <div>
+              <strong>{{ s.fullName }}</strong>
+              <p class="job-meta">{{ s.email }}</p>
+            </div>
+            <div class="approval-actions">
+              <button class="approve" (click)="onApproveSupplier(s.id)" [disabled]="actionLoading() === s.id">Approve</button>
+              <button class="reject" (click)="onRejectSupplier(s.id)" [disabled]="actionLoading() === s.id">Reject</button>
+            </div>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</div>

@@ -39,6 +39,11 @@ export class Register {
     supplierLocation: ['']
   });
 
+  toNumber(value: unknown): number {
+    return Number(value);
+  }
+
+
   get isWorker(): boolean {
     return this.form.get('role')?.value === UserRole.Worker;
   }

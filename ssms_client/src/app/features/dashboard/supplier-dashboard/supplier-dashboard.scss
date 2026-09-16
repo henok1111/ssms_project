@@ -1,0 +1,60 @@
+.dashboard { padding: 24px; max-width: 1100px; margin: 0 auto; }
+
+.dashboard-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+  h1 { color: var(--color-text-primary); font-size: 22px; margin-bottom: 4px; }
+  .subtitle { color: var(--color-text-secondary); font-size: 14px; }
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  &:hover { background-color: var(--color-primary-hover); }
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+  .stat-label { display: block; color: var(--color-text-secondary); font-size: 13px; }
+  .stat-value { display: block; color: var(--color-text-primary); font-size: 28px; font-weight: 700; margin-top: 4px; }
+}
+
+h2 { color: var(--color-text-primary); font-size: 18px; margin-bottom: 16px; }
+.section-spacer { margin-top: 32px; }
+
+.orders-list { display: flex; flex-direction: column; gap: 12px; }
+
+.order-row {
+  display: flex; justify-content: space-between; align-items: center;
+  h3 { color: var(--color-text-primary); font-size: 16px; margin-bottom: 4px; }
+  .job-meta { color: var(--color-text-muted); font-size: 13px; }
+}
+
+.order-right { display: flex; align-items: center; gap: 10px; }
+
+.job-status {
+  font-size: 12px; padding: 3px 10px; border-radius: 999px;
+  background-color: var(--color-info-bg); color: var(--color-info); border: 1px solid var(--color-info-border);
+}
+
+.stock-badge {
+  font-size: 12px; padding: 3px 10px; border-radius: 999px;
+  background-color: var(--color-success-bg); color: var(--color-success); border: 1px solid var(--color-success-border);
+  &.low { background-color: var(--color-warning-bg); color: var(--color-warning); border-color: var(--color-warning-border); }
+}
+
+button {
+  padding: 6px 14px; background-color: var(--color-primary); color: var(--color-text-inverse);
+  border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+  &:hover:not(:disabled) { background-color: var(--color-primary-hover); }
+  &:disabled { background-color: var(--color-text-disabled); cursor: not-allowed; }
+}
+
+.empty-text { color: var(--color-text-secondary); text-align: center; padding: 20px 0; }

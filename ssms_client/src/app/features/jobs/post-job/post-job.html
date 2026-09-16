@@ -1,1 +1,62 @@
-<p>post-job works!</p>
+<div class="post-job-container">
+  <div class="post-job-card">
+    <h1>Post a New Job</h1>
+    <p class="subtitle">Describe the work you need done</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="categoryId">Category</label>
+        <select id="categoryId" formControlName="categoryId">
+          <option value="" disabled>Select a category</option>
+          @for (cat of categories(); track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="title">Job Title</label>
+        <input id="title" type="text" formControlName="title" placeholder="e.g. Fix leaking kitchen sink" />
+      </div>
+
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="4" placeholder="Describe the work in detail..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="jobType">Job Type</label>
+        <select id="jobType" formControlName="jobType">
+          <option [value]="JobType.OnSite">On-site</option>
+          <option [value]="JobType.Remote">Remote</option>
+        </select>
+      </div>
+
+      @if (toNumber(form.get('jobType')?.value) === JobType.OnSite) {
+        <div class="field">
+          <label for="location">Location</label>
+          <input id="location" type="text" formControlName="location" placeholder="e.g. Bole, Addis Ababa" />
+        </div>
+      }
+
+      <div class="field">
+        <label for="budget">Budget (ETB)</label>
+        <input id="budget" type="number" formControlName="budget" min="1" />
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="form.invalid || isLoading">
+          @if (isLoading) {
+            <app-loading-spinner size="small"></app-loading-spinner>
+          } @else {
+            Post Job
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

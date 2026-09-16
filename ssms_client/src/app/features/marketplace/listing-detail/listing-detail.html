@@ -1,1 +1,93 @@
-<p>listing-detail works!</p>
+@if (isLoading()) {
+  <div class="center-spinner"><app-loading-spinner size="large"></app-loading-spinner></div>
+} @else if (listing(); as l) {
+  <div class="listing-detail">
+    <app-card>
+      @if (l.imageUrls.length > 0) {
+        <div class="image-gallery">
+          @for (url of l.imageUrls; track url; let i = $index) {
+            <img [src]="url" [alt]="l.title + ' photo ' + (i + 1)" />
+          }
+        </div>
+      }
+      @if (l.audioUrls.length > 0) {
+        <div class="audio-section">
+          @for (url of l.audioUrls; track url) {
+            <audio controls [src]="url"></audio>
+          }
+        </div>
+      }
+
+      <div class="listing-header">
+        <div>
+          <h1>{{ l.title }}</h1>
+          <p class="listing-meta">{{ l.categoryName }} · {{ l.location }} · {{ l.viewCount }} views</p>
+        </div>
+        <span class="listing-status" [attr.data-status]="l.status">{{ ListingStatus[l.status] }}</span>
+      </div>
+
+      <p class="listing-price">{{ l.price }} ETB</p>
+      <p class="listing-description">{{ l.description }}</p>
+      <p class="seller-info">Sold by {{ l.sellerName }}</p>
+
+      @if (!isOwner && isLoggedIn) {
+        <div class="action-buttons">
+          <button (click)="onToggleSave()">{{ isSaved() ? '★ Saved' : '☆ Save' }}</button>
+          <button (click)="onStartChat()">💬 Contact Seller</button>
+        </div>
+      }
+    </app-card>
+
+    @if (actionError()) {
+      <div class="error-banner">{{ actionError() }}</div>
+    }
+
+    @if (!isOwner && isLoggedIn && l.status === ListingStatus.Active) {
+      <app-card>
+        <h2>Make an Offer</h2>
+        <form [formGroup]="offerForm" (ngSubmit)="onMakeOffer()">
+          <div class="field">
+            <label for="offeredPrice">Your Offer (ETB)</label>
+            <input id="offeredPrice" type="number" formControlName="offeredPrice" min="1" />
+          </div>
+          <div class="field">
+            <label for="offerMessage">Message (optional)</label>
+            <textarea id="offerMessage" formControlName="message" rows="2"></textarea>
+          </div>
+          <button type="submit" [disabled]="offerForm.invalid || actionLoading()">
+            @if (actionLoading()) { <app-loading-spinner size="small"></app-loading-spinner> } @else { Submit Offer }
+          </button>
+        </form>
+      </app-card>
+    }
+
+    @if (isOwner) {
+      <app-card>
+        <h2>Offers Received ({{ offers().length }})</h2>
+        @if (offers().length === 0) {
+          <p class="empty-text">No offers yet.</p>
+        } @else {
+          <div class="offers-list">
+            @for (offer of offers(); track offer.id) {
+              <div class="offer-row">
+                <div>
+                  <strong>{{ offer.buyerName }}</strong>
+                  <p class="listing-meta">{{ offer.offeredPrice }} ETB</p>
+                  @if (offer.message) { <p class="offer-message">"{{ offer.message }}"</p> }
+                </div>
+                @if (offer.status === OfferStatus.Pending) {
+                  <div class="offer-actions">
+                    <button (click)="onAcceptOffer(offer.id)" [disabled]="actionLoading()">Accept</button>
+                    <button class="reject" (click)="onRejectOffer(offer.id)" [disabled]="actionLoading()">Reject</button>
+                  </div>
+                } @else {
+                  <span class="listing-status" [attr.data-status]="offer.status">{{ OfferStatus[offer.status] }}</span>
+                }
+              </div>
+            }
+          </div>
+        }
+      </app-card>
+    }
+  </div>
+}
