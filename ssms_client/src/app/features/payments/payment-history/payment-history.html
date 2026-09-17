@@ -1,1 +1,30 @@
-<p>payment-history works!</p>
+<div class="payment-container">
+  <h1>Payment History</h1>
+
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (records().length === 0) {
+    <app-card><p class="empty-text">No payment history yet.</p></app-card>
+  } @else {
+    <div class="payment-list">
+      @for (record of records(); track record.job.id) {
+        <app-card>
+          <div class="payment-row">
+            <div>
+              <h3>{{ record.job.title }}</h3>
+              <p class="payment-meta">{{ record.job.categoryName }}</p>
+            </div>
+            @if (record.payment; as p) {
+              <div class="payment-right">
+                <span class="payment-amount">{{ p.amount }} ETB</span>
+                <span class="payment-status" [attr.data-status]="p.status">{{ PaymentStatus[p.status] }}</span>
+              </div>
+            } @else {
+              <span class="payment-status">No payment yet</span>
+            }
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</div>

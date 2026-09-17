@@ -1,0 +1,63 @@
+.profile-container { padding: 24px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.profile-header {
+  display: flex; align-items: center; gap: 16px;
+  h1 { color: var(--color-text-primary); font-size: 20px; }
+  .profile-meta { color: var(--color-text-secondary); font-size: 13px; }
+}
+
+.avatar-large { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+
+.avatar-placeholder-large {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--color-primary-subtle); color: var(--color-primary);
+  font-weight: 700; font-size: 24px;
+}
+
+.upload-section {
+  margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-divider);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+
+  input[type="file"] { color: var(--color-text-primary); font-size: 13px; }
+
+  button {
+    padding: 8px 16px; background-color: var(--color-primary); color: var(--color-text-inverse);
+    border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+    &:disabled { background-color: var(--color-text-disabled); cursor: not-allowed; }
+  }
+
+  .error-text { color: var(--color-danger); font-size: 12px; width: 100%; }
+}
+
+h2 { color: var(--color-text-primary); font-size: 16px; margin-bottom: 12px; }
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+
+.skill-tag {
+  display: flex; align-items: center; gap: 6px;
+  background-color: var(--color-primary-subtle); color: var(--color-primary);
+  padding: 6px 10px; border-radius: 999px; font-size: 13px;
+}
+
+.remove-skill {
+  background: none; border: none; color: var(--color-primary); cursor: pointer;
+  font-size: 14px; line-height: 1; padding: 0;
+}
+
+.add-skill-row {
+  display: flex; gap: 8px;
+
+  select {
+    padding: 8px 10px; background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border); border-radius: 6px; color: var(--color-text-primary);
+  }
+
+  button {
+    padding: 8px 14px; background-color: var(--color-primary); color: var(--color-text-inverse);
+    border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+}
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.empty-text { color: var(--color-text-secondary); font-size: 13px; margin-bottom: 12px; }

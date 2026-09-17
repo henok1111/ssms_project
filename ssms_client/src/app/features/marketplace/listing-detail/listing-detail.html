@@ -36,6 +36,23 @@
           <button (click)="onStartChat()">💬 Contact Seller</button>
         </div>
       }
+
+
+      @if (!isOwner && isLoggedIn) {
+  <div class="action-buttons">
+    <button (click)="onToggleSave()">{{ isSaved() ? '★ Saved' : '☆ Save' }}</button>
+    <button (click)="onStartChat()">💬 Contact Seller</button>
+    <button class="report-btn" (click)="showReportForm.set(true)">🚩 Report</button>
+  </div>
+
+  @if (showReportForm()) {
+    <form [formGroup]="reportForm" (ngSubmit)="onReportListing()" class="report-form">
+      <label for="reportReason">Why are you reporting this listing?</label>
+      <textarea id="reportReason" formControlName="reason" rows="2"></textarea>
+      <button type="submit" [disabled]="reportForm.invalid || actionLoading()">Submit Report</button>
+    </form>
+  }
+}
     </app-card>
 
     @if (actionError()) {

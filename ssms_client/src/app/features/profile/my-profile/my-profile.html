@@ -1,1 +1,60 @@
-<p>my-profile works!</p>
+<div class="profile-container">
+  @if (authService.currentUser(); as user) {
+    <app-card>
+      <div class="profile-header">
+        @if (user.profilePictureUrl) {
+          <img [src]="user.profilePictureUrl" [alt]="user.fullName + ' profile picture'" class="avatar-large" />
+        } @else {
+          <div class="avatar-placeholder-large">{{ user.fullName.charAt(0) }}</div>
+        }
+        <div>
+          <h1>{{ user.fullName }}</h1>
+          <p class="profile-meta">{{ user.email }} · {{ user.role }}</p>
+        </div>
+      </div>
+
+      <div class="upload-section">
+        <label for="profilePic" class="visually-hidden">Upload profile picture</label>
+        <input id="profilePic" type="file" accept="image/*" (change)="onFileSelected($event)" />
+        <button (click)="onUploadPicture()" [disabled]="!selectedFile">Upload Picture</button>
+        @if (uploadError()) {
+          <p class="error-text">{{ uploadError() }}</p>
+        }
+      </div>
+    </app-card>
+
+    @if (isWorker) {
+      <app-card>
+        <h2>My Skills</h2>
+        @if (isLoading()) {
+          <app-loading-spinner size="medium"></app-loading-spinner>
+        } @else {
+          @if (skills().length === 0) {
+            <p class="empty-text">No skills added yet.</p>
+          } @else {
+            <div class="skill-tags">
+              @for (skill of skills(); track skill.categoryId) {
+                <span class="skill-tag">
+                  {{ skill.categoryName }}
+                  <button class="remove-skill" (click)="onRemoveSkill(skill.categoryId)" [attr.aria-label]="'Remove ' + skill.categoryName">×</button>
+                </span>
+              }
+            </div>
+          }
+
+          @if (unaddedCategories.length > 0) {
+            <div class="add-skill-row">
+              <label for="addSkillSelect" class="visually-hidden">Add a skill</label>
+              <select id="addSkillSelect" #skillSelect>
+                @for (cat of unaddedCategories; track cat.id) {
+                  <option [value]="cat.id">{{ cat.name }}</option>
+                }
+              </select>
+              <button (click)="onAddSkill(skillSelect.value)">+ Add Skill</button>
+            </div>
+          }
+        }
+      </app-card>
+    }
+  }
+</div>

@@ -1,1 +1,21 @@
-<p>dispute-list works!</p>
+<div class="dispute-container">
+  <h1>Open Disputes</h1>
+
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (disputes().length === 0) {
+    <app-card><p class="empty-text">No open disputes.</p></app-card>
+  } @else {
+    <div class="dispute-list">
+      @for (d of disputes(); track d.id) {
+        <app-card>
+          <p class="dispute-reason"><strong>{{ d.raisedByName }}:</strong> {{ d.reason }}</p>
+          <div class="dispute-actions">
+            <button (click)="onResolve(d.id, true)" [disabled]="actionLoading() === d.id">Uphold (Remove/Penalize)</button>
+            <button class="dismiss" (click)="onResolve(d.id, false)" [disabled]="actionLoading() === d.id">Dismiss</button>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</div>

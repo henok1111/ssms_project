@@ -1,0 +1,15 @@
+.reports-container { padding: 24px; max-width: 800px; margin: 0 auto; }
+h1 { color: var(--color-text-primary); font-size: 22px; margin-bottom: 20px; }
+.reports-list { display: flex; flex-direction: column; gap: 12px; }
+.report-title { color: var(--color-text-primary); margin-bottom: 4px; }
+.report-reason { color: var(--color-text-secondary); font-size: 13px; margin-bottom: 12px; font-style: italic; }
+.report-actions { display: flex; gap: 8px; }
+
+button {
+  padding: 8px 16px; background-color: var(--color-text-secondary); color: var(--color-text-inverse);
+  border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+  &.remove { background-color: var(--color-danger); }
+  &:disabled { background-color: var(--color-text-disabled); cursor: not-allowed; }
+}
+
+.empty-text { color: var(--color-text-secondary); text-align: center; padding: 20px 0; }

@@ -1,1 +1,38 @@
-<p>listing-chat works!</p>
+@if (isLoading()) {
+  <div class="center-spinner"><app-loading-spinner size="large"></app-loading-spinner></div>
+} @else if (conversation(); as conv) {
+  <div class="chat-container">
+    <app-card>
+      <div class="chat-header">
+        <h2>{{ conv.listingTitle }}</h2>
+        <p class="chat-meta">
+          @if (currentUserId === conv.buyerId) {
+            Chatting with {{ conv.sellerName }}
+          } @else {
+            Chatting with {{ conv.buyerName }}
+          }
+        </p>
+      </div>
+
+      <div class="messages-box">
+        @for (msg of messages(); track msg.id) {
+          <div class="message" [class.mine]="msg.senderId === currentUserId">
+            <div class="bubble">
+              <p>{{ msg.content }}</p>
+              <span class="msg-time">{{ msg.createdAt | date:'short' }}</span>
+            </div>
+          </div>
+        }
+        <div #messagesEnd></div>
+      </div>
+
+      <form [formGroup]="messageForm" (ngSubmit)="onSend()" class="message-form">
+        <label for="messageInput" class="visually-hidden">Message</label>
+        <input id="messageInput" type="text" formControlName="content" placeholder="Type a message..." />
+        <button type="submit" [disabled]="messageForm.invalid || isSending()">Send</button>
+      </form>
+    </app-card>
+  </div>
+} @else {
+  <app-card><p class="empty-text">Conversation not found.</p></app-card>
+}

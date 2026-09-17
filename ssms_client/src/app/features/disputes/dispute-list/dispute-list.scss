@@ -1,0 +1,14 @@
+.dispute-container { padding: 24px; max-width: 800px; margin: 0 auto; }
+h1 { color: var(--color-text-primary); font-size: 22px; margin-bottom: 20px; }
+.dispute-list { display: flex; flex-direction: column; gap: 12px; }
+.dispute-reason { color: var(--color-text-primary); margin-bottom: 12px; strong { color: var(--color-primary); } }
+.dispute-actions { display: flex; gap: 8px; }
+
+button {
+  padding: 8px 16px; background-color: var(--color-primary); color: var(--color-text-inverse);
+  border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+  &.dismiss { background-color: var(--color-text-secondary); }
+  &:disabled { background-color: var(--color-text-disabled); cursor: not-allowed; }
+}
+
+.empty-text { color: var(--color-text-secondary); text-align: center; padding: 20px 0; }

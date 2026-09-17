@@ -9,6 +9,7 @@ import { ListingResponse, ListingStatus } from '../../../core/models/marketplace
 import { ListingOfferResponse, OfferStatus } from '../../../core/models/marketplace/listing-offer.model';
 import { Card } from '../../../shared/components/card/card';
 import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
+import { ListingReportService } from '../../../core/services/marketplace/listing-report';
 
 @Component({
   selector: 'app-listing-detail',
@@ -35,7 +36,12 @@ export class ListingDetail implements OnInit {
   actionLoading = signal(false);
   actionError = signal('');
   isSaved = signal(false);
+private reportService = inject(ListingReportService);
+showReportForm = signal(false);
 
+reportForm = this.fb.group({
+  reason: ['', [Validators.required]]
+});
   offerForm = this.fb.group({
     offeredPrice: [0, [Validators.required, Validators.min(1)]],
     message: ['']
@@ -114,4 +120,22 @@ export class ListingDetail implements OnInit {
   private refreshListing(): void {
     this.listingService.getById(this.listingId).subscribe(listing => this.listing.set(listing));
   }
+
+onReportListing(): void {
+  if (this.reportForm.invalid) return;
+  this.actionLoading.set(true);
+  const reason = this.reportForm.getRawValue().reason!;
+  this.reportService.report(this.listingId, { reason }).subscribe({
+    next: () => {
+      this.actionLoading.set(false);
+      this.showReportForm.set(false);
+      this.reportForm.reset();
+      alert('Listing reported. An admin will review it.');
+    },
+    error: (err) => {
+      this.actionLoading.set(false);
+      this.actionError.set(err.error?.message ?? 'Failed to report listing.');
+    }
+  });
+}
 }

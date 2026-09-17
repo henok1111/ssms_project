@@ -1,39 +1,50 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { Component, Input, OnChanges, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-signups-chart',
   standalone: true,
-  imports: [BaseChartDirective],
   templateUrl: './signups-chart.html',
   styleUrl: './signups-chart.scss'
 })
-export class SignupsChart implements OnChanges {
+export class SignupsChart implements AfterViewInit, OnChanges {
   @Input() labels: string[] = [];
   @Input() data: number[] = [];
+  @ViewChild('canvasRef') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  chartData: ChartConfiguration<'line'>['data'] = { labels: [], datasets: [] };
+  private chart?: Chart;
 
-  chartOptions: ChartConfiguration<'line'>['options'] = {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { color: 'rgba(128,128,128,0.15)' } },
-      y: { grid: { color: 'rgba(128,128,128,0.15)' }, beginAtZero: true }
-    }
-  };
+  ngAfterViewInit(): void {
+    this.renderChart();
+  }
 
   ngOnChanges(): void {
-    this.chartData = {
-      labels: this.labels,
-      datasets: [{
-        data: this.data,
-        label: 'New Signups',
-        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#2f6fed',
-        backgroundColor: 'transparent',
-        tension: 0.3
-      }]
-    };
+    if (this.chart) this.renderChart();
+  }
+
+  private renderChart(): void {
+    if (this.chart) this.chart.destroy();
+
+    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#2f6fed';
+
+    this.chart = new Chart(this.canvasRef.nativeElement, {
+      type: 'line',
+      data: {
+        labels: this.labels,
+        datasets: [{
+          data: this.data,
+          label: 'New Signups',
+          borderColor: primaryColor,
+          backgroundColor: 'transparent',
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
   }
 }

@@ -91,3 +91,14 @@ button {
 }
 
 .empty-text { color: var(--color-text-secondary); text-align: center; padding: 12px 0; }
+
+.report-btn { color: var(--color-danger); border-color: var(--color-danger-border); }
+.report-form {
+  margin-top: 12px;
+  label { display: block; color: var(--color-text-primary); font-size: 13px; margin-bottom: 6px; }
+  textarea {
+    width: 100%; padding: 8px 10px; background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border); border-radius: 8px; color: var(--color-text-primary);
+    font-family: inherit; margin-bottom: 8px;
+  }
+}

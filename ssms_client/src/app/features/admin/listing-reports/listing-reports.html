@@ -1,1 +1,22 @@
-<p>listing-reports works!</p>
+<div class="reports-container">
+  <h1>Listing Reports</h1>
+
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (reports().length === 0) {
+    <app-card><p class="empty-text">No pending reports.</p></app-card>
+  } @else {
+    <div class="reports-list">
+      @for (r of reports(); track r.id) {
+        <app-card>
+          <p class="report-title"><strong>{{ r.listingTitle }}</strong></p>
+          <p class="report-reason">Reported by {{ r.reportedByName }}: "{{ r.reason }}"</p>
+          <div class="report-actions">
+            <button class="remove" (click)="onResolve(r.id, true)" [disabled]="actionLoading() === r.id">Remove Listing</button>
+            <button (click)="onResolve(r.id, false)" [disabled]="actionLoading() === r.id">Dismiss Report</button>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</div>

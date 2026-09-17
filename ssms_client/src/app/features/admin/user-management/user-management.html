@@ -1,1 +1,43 @@
-<p>user-management works!</p>
+<div class="users-container">
+  <div class="users-header">
+    <h1>User Management</h1>
+    <div>
+      <label for="roleFilter" class="visually-hidden">Filter by role</label>
+      <select id="roleFilter" [(ngModel)]="selectedRole" (change)="onFilterChange()">
+        <option [ngValue]="undefined">All Roles</option>
+        <option [ngValue]="0">Client</option>
+        <option [ngValue]="1">Worker</option>
+        <option [ngValue]="2">Supplier</option>
+        <option [ngValue]="3">Admin</option>
+      </select>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <app-loading-spinner size="large"></app-loading-spinner>
+  } @else if (users().length === 0) {
+    <app-card><p class="empty-text">No users found.</p></app-card>
+  } @else {
+    <div class="users-list">
+      @for (u of users(); track u.id) {
+        <app-card>
+          <div class="user-row">
+            <div>
+              <strong>{{ u.fullName }}</strong>
+              <p class="user-meta">{{ u.email }} · {{ u.role }}</p>
+              @if (u.approvalStatus) {
+                <span class="approval-badge">{{ u.approvalStatus }}</span>
+              }
+            </div>
+            <div class="user-actions">
+              <span class="status-badge" [class.active]="u.isActive">{{ u.isActive ? 'Active' : 'Inactive' }}</span>
+              <button (click)="onToggleActive(u)" [disabled]="actionLoading() === u.id">
+                {{ u.isActive ? 'Deactivate' : 'Reactivate' }}
+              </button>
+            </div>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</div>

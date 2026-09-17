@@ -88,5 +88,89 @@
         }
       </app-card>
     }
+
+    <!-- Generate Quote Form: Assigned Worker -->
+    @if (isAssignedWorker && j.status === JobStatus.InProgress && !quote()) {
+      <app-card>
+        <h2>Generate Quote</h2>
+        <form [formGroup]="quoteForm" (ngSubmit)="onGenerateQuote()">
+          <div class="field">
+            <label for="laborCost">Labor Cost (ETB)</label>
+            <input id="laborCost" type="number" formControlName="laborCost" min="1" />
+          </div>
+          <button type="submit" [disabled]="quoteForm.invalid || actionLoading()">Generate Quote</button>
+        </form>
+      </app-card>
+    }
+
+    <!-- Quote Display & Actions -->
+    @if (quote(); as q) {
+      <app-card>
+        <h2>Quote</h2>
+        <div class="job-budget-row"><span class="label">Labor</span><span class="value">{{ q.laborCost }} ETB</span></div>
+        <div class="job-budget-row"><span class="label">Materials</span><span class="value">{{ q.materialsCost }} ETB</span></div>
+        <div class="job-budget-row"><span class="label">Total</span><span class="value">{{ q.totalCost }} ETB</span></div>
+        <div class="job-budget-row"><span class="label">Status</span><span class="value">{{ QuoteStatus[q.status] }}</span></div>
+
+        @if (isOwner && q.status === QuoteStatus.PendingApproval) {
+          <button (click)="onApproveQuote()" [disabled]="actionLoading()">Approve Quote</button>
+        }
+
+        @if (isOwner && q.status === QuoteStatus.Approved && !payment()) {
+          <button (click)="onInitiatePayment()" [disabled]="actionLoading()">Pay Now</button>
+        }
+      </app-card>
+    }
+
+    <!-- Payment Display & Actions -->
+    @if (payment(); as p) {
+      <app-card>
+        <h2>Payment</h2>
+        <div class="job-budget-row"><span class="label">Amount</span><span class="value">{{ p.amount }} ETB</span></div>
+        <div class="job-budget-row"><span class="label">Status</span><span class="value">{{ PaymentStatus[p.status] }}</span></div>
+
+        @if (isOwner && p.status === PaymentStatus.Held && j.status === JobStatus.Completed) {
+          <button (click)="onReleasePayment()" [disabled]="actionLoading()">Release Payment</button>
+        }
+      </app-card>
+    }
+
+    <!-- Messages Section -->
+    @if (canChat && job()?.status !== JobStatus.Open) {
+      <app-card>
+        <h2>Messages</h2>
+        <div class="messages-box">
+          @for (msg of messages(); track msg.id) {
+            <div class="message" [class.mine]="msg.senderId === authService.currentUser()?.userId">
+              <div class="bubble">
+                <p>{{ msg.content }}</p>
+              </div>
+            </div>
+          }
+          <div #messagesEnd></div>
+        </div>
+        <form [formGroup]="messageForm" (ngSubmit)="onSendMessage()" class="message-form">
+          <label for="jobMessageInput" class="visually-hidden">Message</label>
+          <input id="jobMessageInput" type="text" formControlName="content" placeholder="Type a message..." />
+          <button type="submit" [disabled]="messageForm.invalid">Send</button>
+        </form>
+      </app-card>
+    }
+    @if ((isOwner || isAssignedWorker) && j.status !== JobStatus.Closed && j.status !== JobStatus.Cancelled) {
+  <app-card>
+    @if (!showDisputeForm()) {
+      <button class="dispute-btn" (click)="showDisputeForm.set(true)">Raise a Dispute</button>
+    } @else {
+      <h2>Raise a Dispute</h2>
+      <form [formGroup]="disputeForm" (ngSubmit)="onRaiseDispute()">
+        <div class="field">
+          <label for="disputeReason">What went wrong?</label>
+          <textarea id="disputeReason" formControlName="reason" rows="3"></textarea>
+        </div>
+        <button type="submit" [disabled]="disputeForm.invalid || actionLoading()">Submit Dispute</button>
+      </form>
+    }
+  </app-card>
+}
   </div>
 }

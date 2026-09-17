@@ -26,15 +26,12 @@ export class JobService {
   search(params: { categoryId?: string; location?: string; minBudget?: number; maxBudget?: number }): Observable<JobResponse[]> {
     return this.http.get<JobResponse[]>(`${this.baseUrl}/search`, { params: params as any });
   }
-
   getMine(): Observable<JobResponse[]> {
     return this.http.get<JobResponse[]>(`${this.baseUrl}/mine`);
   }
-
   getAssignedToMe(): Observable<JobResponse[]> {
     return this.http.get<JobResponse[]>(`${this.baseUrl}/assigned-to-me`);
   }
-
   create(request: CreateJobRequest): Observable<JobResponse> {
     return this.http.post<JobResponse>(this.baseUrl, request);
   }
@@ -48,7 +45,8 @@ export class JobService {
   }
 
   apply(jobId: string, request: ApplyToJobRequest): Observable<JobApplicationResponse> {
-    return this.http.post<JobApplicationResponse>(`${this.baseUrl}/${jobId}/applications`, request);
+    // Updated route to match [HttpPost("{id:guid}/apply")] on the backend
+    return this.http.post<JobApplicationResponse>(`${this.baseUrl}/${jobId}/apply`, request);
   }
 
   getApplications(jobId: string): Observable<JobApplicationResponse[]> {

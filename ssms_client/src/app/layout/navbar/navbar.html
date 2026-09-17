@@ -3,7 +3,7 @@
 
   <div class="navbar-right">
     <app-theme-toggle></app-theme-toggle>
-
+ <app-notification-bell></app-notification-bell>
     @if (authService.currentUser(); as user) {
       <div class="user-info">
         @if (user.profilePictureUrl) {

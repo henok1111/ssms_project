@@ -1,1 +1,68 @@
-<p>post-listing works!</p>
+<div class="post-container">
+  <div class="post-card">
+    <h1>Sell Something</h1>
+    <p class="subtitle">Describe your item for the marketplace</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="categoryId">Category</label>
+        <select id="categoryId" formControlName="categoryId">
+          <option value="" disabled>Select a category</option>
+          @for (cat of categories(); track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" type="text" formControlName="title" placeholder="e.g. iPhone 12, 128GB" />
+      </div>
+
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="4" placeholder="Condition, details, reason for selling..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="condition">Condition</label>
+        <select id="condition" formControlName="condition">
+          <option [value]="ListingCondition.New">New</option>
+          <option [value]="ListingCondition.LikeNew">Like New</option>
+          <option [value]="ListingCondition.Used">Used</option>
+          <option [value]="ListingCondition.Refurbished">Refurbished</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="price">Price (ETB)</label>
+        <input id="price" type="number" formControlName="price" min="1" />
+      </div>
+
+      <div class="field">
+        <label for="location">Location</label>
+        <input id="location" type="text" formControlName="location" placeholder="e.g. Bole, Addis Ababa" />
+      </div>
+
+      <div class="field">
+        <label for="media">Photos / Audio (up to 8)</label>
+        <input id="media" type="file" multiple accept="image/*,audio/*" (change)="onFilesSelected($event)" />
+        @if (selectedFiles.length > 0) {
+          <p class="file-count">{{ selectedFiles.length }} file(s) selected</p>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <button type="submit" [disabled]="form.invalid || isLoading">
+        @if (isLoading) {
+          <app-loading-spinner size="small"></app-loading-spinner>
+        } @else {
+          Post Listing
+        }
+      </button>
+    </form>
+  </div>
+</div>
