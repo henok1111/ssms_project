@@ -85,12 +85,12 @@ showDisputeForm = signal(false);
   }
 
   get isOwner(): boolean {
-    return this.job()?.clientId === this.currentUserId;
-  }
+  return this.job()?.clientUserId === this.currentUserId;
+}
 
-  get isAssignedWorker(): boolean {
-    return this.job()?.assignedWorkerId === this.currentUserId;
-  }
+get isAssignedWorker(): boolean {
+  return this.job()?.assignedWorkerUserId === this.currentUserId;
+}
 
   get userRole(): string | undefined {
     return this.authService.currentUser()?.role;

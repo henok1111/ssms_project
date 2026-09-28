@@ -39,7 +39,9 @@ public JobService(SsmsDbContext dbContext, INotificationService notificationServ
         Status = job.Status,
         AssignedWorkerId = job.AssignedWorkerId,
         AssignedWorkerName = job.AssignedWorker?.User.FullName,
-        CreatedAt = job.CreatedAt
+        CreatedAt = job.CreatedAt,
+        ClientUserId = job.Client.UserId,
+AssignedWorkerUserId = job.AssignedWorker?.UserId,
     };
 
     public async Task<JobResponse?> GetByIdAsync(Guid id)

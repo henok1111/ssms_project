@@ -34,6 +34,8 @@ export interface JobResponse {
   assignedWorkerId: string | null;
   assignedWorkerName: string | null;
   createdAt: string;
+  clientUserId: string;
+assignedWorkerUserId: string | null;
 }
 
 export interface CreateJobRequest {

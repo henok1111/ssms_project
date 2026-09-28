@@ -34,7 +34,7 @@
     <div class="jobs-list">
       @for (job of jobs(); track job.id) {
         <app-card>
-          <div class="job-row">
+          <a [routerLink]="['/jobs', job.id]" class="job-row">
             <div>
               <h3>{{ job.title }}</h3>
               <p class="job-meta">{{ job.categoryName }} · {{ job.location || 'Remote' }}</p>
@@ -43,9 +43,11 @@
               <span class="job-budget">{{ job.budget }} ETB</span>
               <span class="job-status" [attr.data-status]="job.status">{{ JobStatus[job.status] }}</span>
             </div>
-          </div>
+          </a>
         </app-card>
       }
     </div>
   }
 </div>
+
+

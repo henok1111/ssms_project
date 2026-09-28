@@ -18,4 +18,7 @@ public class JobResponse
     public Guid? AssignedWorkerId { get; set; }
     public string? AssignedWorkerName { get; set; }
     public DateTime CreatedAt { get; set; }
+
+    public Guid ClientUserId { get; set; }
+public Guid? AssignedWorkerUserId { get; set; }
 }
