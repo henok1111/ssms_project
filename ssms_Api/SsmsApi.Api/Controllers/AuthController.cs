@@ -1,21 +1,32 @@
 using Microsoft.AspNetCore.Mvc;
 using SsmsApi.Application.DTOs.Auth;
-
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SsmsApi.Domain.Entities;
 using SsmsApi.Application.Interfaces;
-
+using SsmsApi.Infrastructure.Persistence;
 namespace SsmsApi.Api.Controllers;
-
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+  private readonly IAuthService _authService;
+private readonly IFileStorageService _fileStorageService;
+private readonly SsmsDbContext _db;
 
-    public AuthController(IAuthService authService)
-    {
-        _authService = authService;
-    }
-
+public AuthController(
+    IAuthService authService,
+    IFileStorageService fileStorageService,
+    SsmsDbContext db)
+{
+    _authService = authService;
+    _fileStorageService = fileStorageService;
+    _db = db;
+}
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
@@ -107,6 +118,64 @@ public async Task<IActionResult> Refresh()
     return Ok(new { message = "Token refreshed." });
 }
 
-    
+[Authorize]
+[HttpPost("profile-picture")]
+public async Task<IActionResult> UploadProfilePicture(IFormFile file)
+{
+    if (file is null || file.Length == 0)
+        return BadRequest(new { message = "No file was uploaded." });
+
+    if (file.Length > 5 * 1024 * 1024)
+        return BadRequest(new { message = "Profile picture must not exceed 5 MB." });
+
+    var allowedTypes = new[]
+    {
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    };
+
+    if (!allowedTypes.Contains(file.ContentType.ToLower()))
+        return BadRequest(new { message = "Only JPG, PNG, and WEBP images are allowed." });
+
+    var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    if (!Guid.TryParse(userIdClaim, out var userId))
+        return Unauthorized();
+
+    await using var stream = file.OpenReadStream();
+
+    var (success, profilePictureUrl) =
+        await _authService.UploadProfilePictureAsync(
+            userId,
+            stream,
+            file.FileName,
+            file.ContentType);
+
+    if (!success)
+        return BadRequest(new { message = "Failed to upload profile picture." });
+
+    return Ok(new
+    {
+        profilePictureUrl
+    });
+}
+[Authorize]
+[HttpGet("me")]
+public async Task<IActionResult> GetMe()
+{
+    var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    if (!Guid.TryParse(userIdClaim, out var userId))
+        return Unauthorized();
+
+    var response = await _authService.GetCurrentUserAsync(userId);
+
+    if (response is null)
+        return NotFound(new { message = "User not found." });
+
+    return Ok(response);
+}
+
 }
 
