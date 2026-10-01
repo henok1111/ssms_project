@@ -81,4 +81,15 @@ public async Task<IActionResult> Search(
         var success = await _listingService.DeleteAsync(id, CurrentUserId);
         return success ? NoContent() : NotFound();
     }
+
+
+    [HttpPost("{id:guid}/mark-reserved")]
+public async Task<IActionResult> MarkAsReserved(Guid id)
+{
+    var success = await _listingService.MarkAsReservedAsync(id, CurrentUserId);
+
+    return success
+        ? Ok(new { message = "Listing marked as reserved." })
+        : NotFound();
+}
 }

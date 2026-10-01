@@ -1,65 +1,356 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
-  background-color: var(--color-bg-surface);
+  justify-content: space-between;
+
+  min-height: 64px;
+  padding: 0 24px;
+
+  background: var(--color-bg-surface);
   border-bottom: 1px solid var(--color-border);
+}
+
+
+/* =========================
+   LEFT SIDE
+   ========================= */
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 36px;
 }
 
 .navbar-brand {
   color: var(--color-primary);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.5px;
 }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-link {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 40px;
+  padding: 0 12px;
+
+  color: var(--color-text-secondary);
+  text-decoration: none;
+
+  border-radius: 7px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-hover);
+}
+
+.nav-link.active {
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+}
+
+
+/* =========================
+   RIGHT SIDE
+   ========================= */
 
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
-.user-info {
+
+/* =========================
+   LOGIN
+   ========================= */
+
+.login-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 38px;
+  padding: 0 18px;
+
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+
+  border-radius: 7px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: background-color 0.2s ease;
+}
+
+.login-button:hover {
+  background: var(--color-primary-hover);
+}
+
+
+/* =========================
+   PROFILE
+   ========================= */
+
+.profile-container {
+  position: relative;
+}
+
+.profile-button {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
+
+  min-height: 40px;
+  padding: 4px 8px;
+
+  color: var(--color-text-primary);
+  background: transparent;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.avatar, .avatar-placeholder {
+.profile-button:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border);
+}
+
+
+/* =========================
+   AVATAR
+   ========================= */
+
+.avatar,
+.avatar-placeholder {
   width: 32px;
   height: 32px;
+
   border-radius: 50%;
 }
 
-.avatar { object-fit: cover; }
+.avatar {
+  object-fit: cover;
+}
 
 .avatar-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-primary-subtle);
+
+  background: var(--color-primary-subtle);
   color: var(--color-primary);
-  font-weight: 700;
+
   font-size: 14px;
+  font-weight: 700;
 }
 
 .user-name {
+  max-width: 150px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
   color: var(--color-text-primary);
+
   font-size: 14px;
   font-weight: 500;
 }
 
-.logout-btn {
-  padding: 6px 14px;
-  background-color: transparent;
-  color: var(--color-text-secondary);
+
+/* =========================
+   DROPDOWN ARROW
+   ========================= */
+
+.dropdown-arrow {
+  color: var(--color-text-muted);
+  font-size: 9px;
+
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+
+/* =========================
+   PROFILE MENU
+   ========================= */
+
+.profile-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+
+  width: 190px;
+
+  padding: 6px;
+
+  background: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
+  border-radius: 9px;
+
+  box-shadow:
+    0 8px 24px rgba(
+      var(--color-shadow),
+      0.15
+    );
+
+  z-index: 1100;
+}
+
+
+/* =========================
+   MENU ITEMS
+   ========================= */
+
+.menu-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 11px;
+
+  color: var(--color-text-primary);
+  background: transparent;
+
+  border: none;
   border-radius: 6px;
-  font-size: 13px;
+
   cursor: pointer;
 
-  &:hover {
-    background-color: var(--color-bg-hover);
-    color: var(--color-text-primary);
+  text-align: left;
+  font-size: 14px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.menu-item:hover {
+  background: var(--color-bg-hover);
+}
+
+.menu-icon {
+  width: 20px;
+
+  color: var(--color-icon);
+  text-align: center;
+}
+
+.menu-divider {
+  height: 1px;
+
+  margin: 5px 0;
+
+  background: var(--color-divider);
+}
+
+.logout-item {
+  color: var(--color-danger);
+}
+
+.logout-item .menu-icon {
+  color: var(--color-danger);
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 0 16px;
   }
+
+  .navbar-left {
+    gap: 14px;
+  }
+
+  .nav-links {
+    gap: 2px;
+  }
+
+  .nav-link {
+    padding: 0 8px;
+    font-size: 13px;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .dropdown-arrow {
+    display: none;
+  }
+
+}
+
+@media (max-width: 560px) {
+
+  .navbar {
+    min-height: 58px;
+  }
+
+  .navbar-left {
+    gap: 8px;
+  }
+
+  .navbar-brand {
+    font-size: 19px;
+  }
+
+  .nav-link {
+    min-height: 36px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
+
+  .navbar-right {
+    gap: 8px;
+  }
+
+  .login-button {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
 }

@@ -16,6 +16,6 @@ public interface IListingService
     Task<ListingResponse?> UpdateAsync(Guid id, Guid sellerUserId, UpdateListingRequest request);
 
     Task<bool> MarkAsSoldAsync(Guid id, Guid sellerUserId);
-
+Task<bool> MarkAsReservedAsync(Guid id, Guid sellerUserId);
     Task<bool> DeleteAsync(Guid id, Guid sellerUserId);
 }

@@ -1,51 +1,302 @@
-<div class="feed-container">
-  <div class="feed-header">
-    <h1>Marketplace</h1>
-    <a routerLink="/marketplace/post" class="btn-primary">+ Sell Something</a>
-  </div>
+<div class="marketplace-page">
 
+  <div class="marketplace-header">
 
+    <div class="header-content">
 
+      <div>
+        <span class="section-label">MARKETPLACE</span>
 
+        <h1>Buy and sell with ease</h1>
 
-  <div class="filters">
-    <input type="text" [(ngModel)]="keyword" (change)="onFilterChange()" placeholder="Search listings..." />
-    <select [(ngModel)]="selectedCategoryId" (change)="onFilterChange()" aria-label="Filter by category">
-      <option value="">All Categories</option>
-      @for (cat of categories(); track cat.id) {
-        <option [value]="cat.id">{{ cat.name }}</option>
-      }
-    </select>
-    <input type="number" [(ngModel)]="maxPrice" (change)="onFilterChange()" placeholder="Max price" />
-   <select [(ngModel)]="sortBy" (change)="onFilterChange()" aria-label="Sort listings">
-      <option value="">Newest</option>
-      <option value="price_asc">Price: Low to High</option>
-      <option value="price_desc">Price: High to Low</option>
-    </select>
-  </div>
+        <p>
+          Discover products, equipment, materials, and other items
+          available from people on SSMS.
+        </p>
+      </div>
 
-  @if (isLoading()) {
-    <app-loading-spinner size="large"></app-loading-spinner>
-  } @else if (listings().length === 0) {
-    <app-card><p class="empty-text">No listings found.</p></app-card>
-  } @else {
-    <div class="listing-grid">
-      @for (listing of listings(); track listing.id) {
-        <a [routerLink]="['/marketplace', listing.id]" class="listing-card">
-          <div class="listing-image">
-            @if (listing.imageUrls.length > 0) {
-              <img [src]="listing.imageUrls[0]" [alt]="listing.title" />
-            } @else {
-              <div class="no-image">No Image</div>
-            }
-          </div>
-          <div class="listing-info">
-            <h3>{{ listing.title }}</h3>
-            <p class="listing-price">{{ listing.price }} ETB</p>
-            <p class="listing-meta">{{ listing.location }} · {{ listing.viewCount }} views</p>
-          </div>
-        </a>
-      }
+      <a
+        routerLink="/marketplace/post"
+        class="btn-primary"
+      >
+        + Sell Something
+      </a>
+
     </div>
-  }
+
+  </div>
+
+
+  <!-- Filters -->
+
+  <section class="filters-section">
+
+    <div class="filters">
+
+      <div class="search-field">
+        <label for="keyword">Search</label>
+
+        <input
+          id="keyword"
+          type="text"
+          [(ngModel)]="keyword"
+          (change)="onFilterChange()"
+          placeholder="Search listings..."
+        />
+      </div>
+
+
+      <div class="filter-field">
+        <label for="category">Category</label>
+
+        <select
+          id="category"
+          [(ngModel)]="selectedCategoryId"
+          (change)="onFilterChange()"
+        >
+
+          <option value="">
+            All Categories
+          </option>
+
+          @for (category of categories(); track category.id) {
+
+            <option [value]="category.id">
+              {{ category.name }}
+            </option>
+
+          }
+
+        </select>
+      </div>
+
+
+      <div class="filter-field">
+        <label for="location">Location</label>
+
+        <input
+          id="location"
+          type="text"
+          [(ngModel)]="location"
+          (change)="onFilterChange()"
+          placeholder="Location"
+        />
+      </div>
+
+
+      <div class="filter-field">
+        <label for="maxPrice">Maximum Price</label>
+
+        <input
+          id="maxPrice"
+          type="number"
+          [(ngModel)]="maxPrice"
+          (change)="onFilterChange()"
+          placeholder="Max price"
+          min="0"
+        />
+      </div>
+
+
+      <div class="filter-field">
+        <label for="sort">Sort</label>
+
+        <select
+          id="sort"
+          [(ngModel)]="sortBy"
+          (change)="onFilterChange()"
+        >
+
+          <option value="">
+            Newest
+          </option>
+
+          <option value="price_asc">
+            Price: Low to High
+          </option>
+
+          <option value="price_desc">
+            Price: High to Low
+          </option>
+
+        </select>
+      </div>
+
+
+      <button
+        type="button"
+        class="clear-button"
+        (click)="clearFilters()"
+      >
+        Clear
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- Results -->
+
+  <section class="results-section">
+
+    <div class="results-header">
+
+      <h2>
+        Available Listings
+      </h2>
+
+      @if (!isLoading()) {
+
+        <span class="result-count">
+          {{ listings().length }} listings
+        </span>
+
+      }
+
+    </div>
+
+
+    @if (isLoading()) {
+
+      <div class="loading-container">
+        <app-loading-spinner size="large"></app-loading-spinner>
+      </div>
+
+    }
+
+    @else if (hasError()) {
+
+      <app-card>
+
+        <div class="message-container">
+
+          <h3>Unable to load listings</h3>
+
+          <p>
+            Something went wrong while loading the marketplace.
+            Please try again.
+          </p>
+
+          <button
+            type="button"
+            class="retry-button"
+            (click)="loadListings()"
+          >
+            Try Again
+          </button>
+
+        </div>
+
+      </app-card>
+
+    }
+
+    @else if (listings().length === 0) {
+
+      <app-card>
+
+        <div class="message-container">
+
+          <h3>No listings found</h3>
+
+          <p>
+            Try changing your search or filter options.
+          </p>
+
+          <button
+            type="button"
+            class="retry-button"
+            (click)="clearFilters()"
+          >
+            Clear Filters
+          </button>
+
+        </div>
+
+      </app-card>
+
+    }
+
+    @else {
+
+      <div class="listing-grid">
+
+        @for (listing of listings(); track listing.id) {
+
+          <a
+            [routerLink]="['/marketplace', listing.id]"
+            class="listing-card"
+          >
+
+            <div class="listing-image">
+
+              @if (listing.imageUrls.length > 0) {
+
+                <img
+                  [src]="listing.imageUrls[0]"
+                  [alt]="listing.title"
+                />
+
+              } @else {
+
+                <div class="no-image">
+                  No Image
+                </div>
+
+              }
+
+            </div>
+
+
+            <div class="listing-info">
+
+              <div class="listing-category">
+                {{ listing.categoryName }}
+              </div>
+
+              <h3>
+                {{ listing.title }}
+              </h3>
+
+              <p class="listing-price">
+                {{ listing.price | number:'1.0-2' }} ETB
+              </p>
+
+              <div class="listing-details">
+
+                <span>
+                  {{ getConditionLabel(listing.condition) }}
+                </span>
+
+                <span>
+                  {{ listing.location }}
+                </span>
+
+              </div>
+
+              <div class="listing-footer">
+
+                <span>
+                  {{ listing.sellerName }}
+                </span>
+
+                <span>
+                  {{ listing.viewCount }} views
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+        }
+
+      </div>
+
+    }
+
+  </section>
+
 </div>

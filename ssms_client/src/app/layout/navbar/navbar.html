@@ -1,19 +1,153 @@
 <nav class="navbar">
-  <div class="navbar-brand">SSMS</div>
 
-  <div class="navbar-right">
-    <app-theme-toggle></app-theme-toggle>
- <app-notification-bell></app-notification-bell>
-    @if (authService.currentUser(); as user) {
-      <div class="user-info">
-        @if (user.profilePictureUrl) {
-          <img [src]="user.profilePictureUrl" class="avatar" alt="Profile" />
-        } @else {
-          <div class="avatar-placeholder">{{ user.fullName.charAt(0) }}</div>
-        }
-        <span class="user-name">{{ user.fullName }}</span>
-      </div>
-      <button class="logout-btn" (click)="onLogout()">Log Out</button>
-    }
+  <!-- LEFT SIDE -->
+  <div class="navbar-left">
+
+    <a
+      routerLink="/"
+      class="navbar-brand"
+      (click)="closeProfileMenu()"
+    >
+      SSMS
+    </a>
+
+    <div class="nav-links">
+
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link"
+      >
+        Home
+      </a>
+
+      <a
+        routerLink="/jobs"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Jobs
+      </a>
+
+      <a
+        routerLink="/marketplace"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Marketplace
+      </a>
+
+    </div>
+
   </div>
+
+
+  <!-- RIGHT SIDE -->
+  <div class="navbar-right">
+
+    <!-- Theme -->
+    <app-theme-toggle></app-theme-toggle>
+
+
+    <!-- Logged-in user -->
+    @if (authService.currentUser(); as user) {
+
+      <!-- Notifications -->
+      <app-notification-bell></app-notification-bell>
+
+      <!-- Profile -->
+      <div class="profile-container">
+
+        <button
+          type="button"
+          class="profile-button"
+          (click)="toggleProfileMenu()"
+          [attr.aria-expanded]="profileMenuOpen"
+        >
+
+          @if (user.profilePictureUrl) {
+
+            <img
+              [src]="user.profilePictureUrl"
+              class="avatar"
+              alt="Profile"
+            />
+
+          } @else {
+
+            <div class="avatar-placeholder">
+              {{ user.fullName.charAt(0).toUpperCase() }}
+            </div>
+
+          }
+
+          <span class="user-name">
+            {{ user.fullName }}
+          </span>
+
+          <span
+            class="dropdown-arrow"
+            [class.open]="profileMenuOpen"
+          >
+            ▼
+          </span>
+
+        </button>
+
+
+        <!-- Profile dropdown -->
+        @if (profileMenuOpen) {
+
+          <div class="profile-menu">
+
+            <button
+              type="button"
+              class="menu-item"
+              (click)="goToProfile()"
+            >
+              <span class="menu-icon">👤</span>
+              <span>My Profile</span>
+            </button>
+
+            <button
+              type="button"
+              class="menu-item"
+              (click)="goToDashboard()"
+            >
+              <span class="menu-icon">📊</span>
+              <span>Dashboard</span>
+            </button>
+
+            <div class="menu-divider"></div>
+
+            <button
+              type="button"
+              class="menu-item logout-item"
+              (click)="onLogout()"
+            >
+              <span class="menu-icon">↪</span>
+              <span>Log Out</span>
+            </button>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <!-- Logged-out user -->
+      <a
+        routerLink="/login"
+        class="login-button"
+      >
+        Login
+      </a>
+
+    }
+
+  </div>
+
 </nav>
